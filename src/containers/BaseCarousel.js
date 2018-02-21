@@ -67,6 +67,7 @@ class BaseCarousel extends Component {
   }
 
   render() {
+    console.log(this.props.children);
     const { activeIndex } = this.state;
     const screen = window.screen;
     const imgWidth = screen.width;
@@ -80,6 +81,7 @@ class BaseCarousel extends Component {
         >
           <img src={item.src} alt={item.altText} width={imgWidth} height={imgHeight}/>
           <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+          {this.props.children}
         </CarouselItem>
       );
     });
