@@ -16,17 +16,17 @@ const items = [
   {
     src: imgSrc1,
     altText: 'Slide 1',
-    caption: 'Slide 1'
+    caption: 'Удобство работы!'
   },
   {
     src: imgSrc2,
     altText: 'Slide 2',
-    caption: 'Slide 2'
+    caption: 'Множество партнёров!'
   },
   {
     src: imgSrc3,
     altText: 'Slide 3',
-    caption: 'Slide 3'
+    caption: 'Возможность работы с несколькими брокерами!'
   }
 ];
 
@@ -80,7 +80,7 @@ class BaseCarousel extends Component {
           key={item.src}
         >
           <img src={item.src} alt={item.altText} width={imgWidth} height={imgHeight}/>
-          <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+          <CarouselCaption captionHeader={item.caption} />
           {this.props.children}
         </CarouselItem>
       );
