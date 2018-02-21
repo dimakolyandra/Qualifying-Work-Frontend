@@ -1,0 +1,3 @@
+div.carousel-item img[src]{
+    filter: blur(5px);
+}
