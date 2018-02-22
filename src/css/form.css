@@ -1,0 +1,76 @@
+p.for-form{
+    padding: 9px;
+    text-align: center;
+    color:black;
+    font: normal 13px/100% Verdana, Tahoma, sans-serif;
+    width: 210px;
+    background-image: url(../images/grey.jpg);
+    background-size: 100%;
+    border-radius: 10px 10px 10px 10px;
+}
+
+
+.general {
+    padding: 9px;
+    border: solid 1px #E5E5E5;
+    outline: 0;
+    font: normal 13px/100% Verdana, Tahoma, sans-serif;
+    width: 190px;
+    background: #FFFFFF;
+    border-radius: 10px 10px 10px 10px;
+}
+
+
+input.user_data{
+    background-image: url(../images/user-silhouette.svg);
+    background-size: 12px;
+    background-repeat: no-repeat; /*Убираем повтор изображения*/
+    background-position: 170px; /*Позиционируем*/
+}
+
+input.user_password{
+    background-image: url(../images/lock.svg);
+    background-size: 12px;
+    background-repeat: no-repeat; /*Убираем повтор изображения*/
+    background-position: 170px; /*Позиционируем*/
+}
+
+@keyframes toselectedbtn{
+    0% { background-color: #FFFFFF;}
+    100% { background-color: #BBBBBB; }
+}
+
+.selectedbtn:hover, .selectedbtn:focus{
+ -webkit-animation: toselectedbtn 1s;
+ background-color: #BBBBBB;
+}
+
+input:hover, input:focus{
+    border-color: #C9C9C9;
+    border-radius: 10px 10px 10px 10px;
+    }
+
+
+form{
+    position: absolute; top: 30%; left: 41%;
+    color:black;
+    margin-left: 10px;
+}
+
+.form-anim-appear {
+  opacity: 0.01;
+}
+
+.form-anim-appear.form-anim-appear-active{
+  opacity: 2;
+  transition: opacity 3s ease-in;
+}
+
+.carousel-anim-appear {
+  opacity: 0.01;
+}
+
+.carousel-anim-appear.carousel-anim-appear-active{
+  opacity: 2;
+  transition: opacity 1s ease-in;
+}

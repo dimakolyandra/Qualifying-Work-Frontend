@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import './css/form.css';
+import './css/carousel.css';
+
 import ReactDom from 'react-dom';
 import React from 'react';
 
-import BaseCarousel from './containers/BaseCarousel'
-import LoginForm from './components/LoginForm'
+import MainContainer from './containers/MainContainer'
 
-ReactDom.render(<BaseCarousel><LoginForm/></BaseCarousel>, document.getElementById('root'))
+ReactDom.render(<MainContainer/>, document.getElementById('root'))
