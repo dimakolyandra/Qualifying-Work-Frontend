@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Form from './Form'
+
 import FormInput from './FormInput'
 
 const stagesOfRegistration = [
