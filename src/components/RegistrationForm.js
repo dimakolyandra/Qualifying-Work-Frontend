@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import LoginDataForm from './LoginDataForm'
+import PersonDataForm from './PersonDataForm'
+import ContactsDataForm from './ContactsDataForm'
 
 const stagesOfRegistration = [
     'loginData',
@@ -59,51 +61,26 @@ class RegistrationForm extends Component{
         let form = null;
         let stateRegistration = stagesOfRegistration[this.state.stageRegistrationIndex];
         if (stateRegistration == 'loginData'){
-            form = <LoginDataForm/>
+            form = <LoginDataForm
+                        submitNext={this.submitNext}
+                        submitBack={this.submitBack}
+                        handleInputChange={this.handleInputChange}
+                    />;
         }
         if (stateRegistration == 'personData'){
-            form = (
-                <div>
-                    <Form id="personData" class="form">
-                        <FormInput
-                            class="general user_data"
-                            type="text"
-                            placeholder="Ваше имя"
-                            onChange={this.handleInputChange}
-                            name="firstName"
-                        />
-                        <FormInput
-                            class="general user_data"
-                            type="text"
-                            placeholder="Вашу фамилия"
-                            onChange={this.handleInputChange}
-                            firstName="secondName"
-                        />
-                        <FormInput
-                            class="general user_data"
-                            type="date"
-                            placeholder="Дата рождения"
-                            onChange={this.handleInputChange}
-                            name="bDate"
-                        />
-                        <FormInput
-                            class="general user_data"
-                            type="text"
-                            placeholder="Пасспортные данные"
-                            onChange={this.handleInputChange}
-                            name="passportData"
-                        />
-                        <p class="for-form">
-                            <button class="general selectedbtn" onClick={this.submitNext}>Далее</button>
-                        </p>
-                        <p class="for-form">
-                            <button class="general selectedbtn" onClick={this.submitBack}>Назад</button>
-                        </p>
-                    </Form>
-                </div>
-            )
+            form = <PersonDataForm
+                        submitNext={this.submitNext}
+                        submitBack={this.submitBack}
+                        handleInputChange={this.handleInputChange}
+                    />;
         }
-
+        if (stateRegistration == 'contactsData'){
+            form = <ContactsDataForm
+                        submitNext={this.submitNext}
+                        submitBack={this.submitBack}
+                        handleInputChange={this.handleInputChange}
+                    />;
+        }
         return (
             <div>
                 {form}

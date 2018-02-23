@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import Form from './Form'
-
 import FormInput from './FormInput'
 
-class LoginDataForms extends Component{
+
+class LoginDataForm extends Component{
     render(){
         return (
                 <div>
@@ -12,21 +12,21 @@ class LoginDataForms extends Component{
                             class="general user_data"
                             type="text"
                             placeholder="Введите новый логин"
-                            onChange={this.handleInputChange}
+                            onChange={this.props.handleInputChange}
                             name="login"
                         />
                         <FormInput
                             class="general user_password"
                             type="password"
                             placeholder="Введите новый пароль"
-                            onChange={this.handleInputChange}
+                            onChange={this.props.handleInputChange}
                             name="password"
                         />
                         <p class="for-form">
-                            <button class="general selectedbtn" onClick={this.submitNext}>Далее</button>
+                            <button class="general selectedbtn" onClick={this.props.submitNext}>Далее</button>
                         </p>
                         <p class="for-form">
-                            <button class="general selectedbtn" onClick={this.submitBack}>Назад</button>
+                            <button class="general selectedbtn" onClick={this.props.submitBack}>Назад</button>
                         </p>
                     </Form>
                 </div>
@@ -34,4 +34,4 @@ class LoginDataForms extends Component{
     }
 }
 
-export default LoginDataForms;
+export default LoginDataForm;
