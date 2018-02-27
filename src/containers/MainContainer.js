@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import BaseCarousel from '../components/BaseCarousel';
+import BaseControlledCarousel from '../components/BaseControlledCarousel';
 import LoginForm from '../components/LoginForm';
 import RegistrationForm from '../components/RegistrationForm';
 import Animation from '../components/Animation';
@@ -27,13 +27,16 @@ class MainContainer extends Component{
         if (this.state.status == 'registration'){
             pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
         }
+        if (this.state.status == 'chooseBroker'){
+            pageContent = <h1> CHOOSE BROKER </h1>;
+        }
         return (
             <div class="MainContainer">
                 <Animation transitionName="carousel-anim">
-                    <BaseCarousel/>
+                    <BaseControlledCarousel/>
                 </Animation>
-                {pageContent}
-            </div>
+            {pageContent}
+         </div>
         )
     }
 }

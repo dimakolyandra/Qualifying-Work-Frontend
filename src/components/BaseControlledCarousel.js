@@ -30,7 +30,7 @@ const items = [
   }
 ];
 
-class BaseCarousel extends Component {
+class BaseControlledCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
@@ -97,6 +97,7 @@ class BaseCarousel extends Component {
       </Carousel>
     );
   }
+
 };
 
-export default BaseCarousel;
+export default BaseControlledCarousel;

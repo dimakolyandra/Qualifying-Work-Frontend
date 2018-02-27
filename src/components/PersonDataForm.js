@@ -9,28 +9,28 @@ class PersonDataForm extends Component{
                 <div>
                     <Form id="personData" class="form">
                         <FormInput
-                            class="general user_data"
+                            class="general input-image user_data"
                             type="text"
                             placeholder="Ваше имя"
                             onChange={this.props.handleInputChange}
                             name="firstName"
                         />
                         <FormInput
-                            class="general user_data"
+                            class="general input-image user_data"
                             type="text"
                             placeholder="Вашу фамилия"
                             onChange={this.props.handleInputChange}
                             firstName="secondName"
                         />
                         <FormInput
-                            class="general user_data"
+                            class="general input-image b_date"
                             type="date"
                             placeholder="Дата рождения"
                             onChange={this.props.handleInputChange}
                             name="bDate"
                         />
                         <FormInput
-                            class="general user_data"
+                            class="general input-image passport"
                             type="text"
                             placeholder="Пасспортные данные"
                             onChange={this.props.handleInputChange}

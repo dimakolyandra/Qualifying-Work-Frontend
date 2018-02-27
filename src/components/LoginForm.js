@@ -23,8 +23,8 @@ class LoginForm extends Component{
         return (
             <div>
                 <Form id="enter" class="form" onSubmit={this.submitForm}>
-                    <FormInput class="general user_data" type="text" placeholder=" Ваш логин"/>
-                    <FormInput class="general user_password" type="password" placeholder=" Ваш пароль"/>
+                    <FormInput class="general input-image user_data" type="text" placeholder=" Ваш логин"/>
+                    <FormInput class="general input-image user_password" type="password" placeholder=" Ваш пароль"/>
                     <p class="for-form">
                         <button class="general selectedbtn" onClick={this.submitEnter}>Войти</button>
                     </p>

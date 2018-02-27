@@ -9,14 +9,14 @@ class ContactsDataForm extends Component{
                 <div>
                     <Form id="contactsData" class="form">
                         <FormInput
-                            class="general user_data"
+                            class="general input-image phone"
                             type="text"
                             placeholder="Телефон"
                             onChange={this.props.handleInputChange}
                             name="phone"
                         />
                         <FormInput
-                            class="general user_data"
+                            class="general input-image email"
                             type="text"
                             placeholder="Электр. почта"
                             onChange={this.props.handleInputChange}

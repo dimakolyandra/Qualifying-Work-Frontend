@@ -9,14 +9,14 @@ class LoginDataForm extends Component{
                 <div>
                     <Form id="loginData" class="form">
                         <FormInput
-                            class="general user_data"
+                            class="general input-image user_data"
                             type="text"
                             placeholder="Введите новый логин"
                             onChange={this.props.handleInputChange}
                             name="login"
                         />
                         <FormInput
-                            class="general user_password"
+                            class="general input-image user_password"
                             type="password"
                             placeholder="Введите новый пароль"
                             onChange={this.props.handleInputChange}

@@ -2,12 +2,16 @@
   "name": "hello-world",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080/myapp",
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-bootstrap-carousel": "^2.3.0",
     "react-dom": "^16.2.0",
+    "react-modal": "^3.3.1",
+    "react-modal-bootstrap": "^1.1.1",
     "react-scripts": "1.1.1",
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-alpha.3"

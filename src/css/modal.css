@@ -1,0 +1,43 @@
+@keyframes showModal{
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes closeModal{
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.mymodal{
+  background-color:   #F5F5DC;
+  border-radius: 20px 20px 20px 20px;
+  position: absolute;
+  top:30%;
+  left: 30%;
+  width: 500px;
+  height: 200px;
+}
+
+.showing{
+  -webkit-animation: showModal 2s;
+  opacity: 1;
+}
+
+.not-showing{
+  -webkit-animation: closeModal 2s;
+  opacity: 0;
+}
+
+.close{
+  position: absolute;
+  top: 80%;
+  left: 47%;
+  border-radius: 10px 10px 10px 10px;
+
+}
+
+.modal-header{
+position: absolute;
+  top: 30%;
+  left: 12%;
+}

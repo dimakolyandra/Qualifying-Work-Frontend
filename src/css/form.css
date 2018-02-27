@@ -20,19 +20,34 @@ p.for-form{
     border-radius: 10px 10px 10px 10px;
 }
 
-
-input.user_data{
-    background-image: url(../images/user-silhouette.svg);
+.input-image{
     background-size: 12px;
     background-repeat: no-repeat; /*Убираем повтор изображения*/
     background-position: 170px; /*Позиционируем*/
 }
 
+input.user_data{
+    background-image: url(../images/user-silhouette.svg);
+}
+
 input.user_password{
     background-image: url(../images/lock.svg);
-    background-size: 12px;
-    background-repeat: no-repeat; /*Убираем повтор изображения*/
-    background-position: 170px; /*Позиционируем*/
+}
+
+input.phone{
+    background-image: url(../images/phone.svg);
+}
+
+input.email{
+    background-image: url(../images/email.svg);
+}
+
+input.b_date{
+    background-image: url('../images/calendar.svg');
+}
+
+input.passport{
+    background-image: url('../images/passport.svg');
 }
 
 @keyframes toselectedbtn{
@@ -62,7 +77,7 @@ form{
 }
 
 .form-anim-appear.form-anim-appear-active{
-  opacity: 2;
+  opacity: 1;
   transition: opacity 3s ease-in;
 }
 
@@ -71,6 +86,6 @@ form{
 }
 
 .carousel-anim-appear.carousel-anim-appear-active{
-  opacity: 2;
+  opacity: 1;
   transition: opacity 1s ease-in;
 }
