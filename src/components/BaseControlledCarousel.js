@@ -1,4 +1,3 @@
-import '../css/carousel.css'
 import React, { Component } from 'react';
 import {
   Carousel,
@@ -7,28 +6,6 @@ import {
   CarouselIndicators,
   CarouselCaption
 } from 'reactstrap';
-
-import imgSrc1 from '../images/2.jpg'
-import imgSrc2 from '../images/3.jpg'
-import imgSrc3 from '../images/4.jpg'
-
-const items = [
-  {
-    src: imgSrc1,
-    altText: 'Slide 1',
-    caption: 'Удобство работы!'
-  },
-  {
-    src: imgSrc2,
-    altText: 'Slide 2',
-    caption: 'Множество партнёров!'
-  },
-  {
-    src: imgSrc3,
-    altText: 'Slide 3',
-    caption: 'Возможность работы с несколькими брокерами!'
-  }
-];
 
 class BaseControlledCarousel extends Component {
   constructor(props) {
@@ -50,14 +27,18 @@ class BaseControlledCarousel extends Component {
   }
 
   next() {
+    var items = this.props.items
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
+    if (this.props.changeDescription != undefined) this.props.changeDescription(nextIndex);
     this.setState({ activeIndex: nextIndex });
   }
 
   previous() {
+    var items = this.props.items
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
+    if (this.props.changeDescription != undefined) this.props.changeDescription(nextIndex);
     this.setState({ activeIndex: nextIndex });
   }
 
@@ -67,25 +48,31 @@ class BaseControlledCarousel extends Component {
   }
 
   render() {
+    var items = this.props.items
     const { activeIndex } = this.state;
     const screen = window.screen;
     const imgWidth = screen.width;
     const imgHeight = screen.height - screen.height * 0.1;
     const slides = items.map((item) => {
+      var caption = null;
+      if (this.props.showCarouselCaptions){
+        var caption =   <CarouselCaption captionHeader={item.caption} />
+      }
       return (
         <CarouselItem
           onExiting={this.onExiting}
           onExited={this.onExited}
           key={item.src}
         >
-          <img src={item.src} alt={item.altText} width={imgWidth} height={imgHeight}/>
-          <CarouselCaption captionHeader={item.caption} />
+          <img className={this.props.imageClass} src={item.src} alt={item.altText} width={imgWidth} height={imgHeight}/>
+          {caption}
         </CarouselItem>
       );
     });
 
     return (
       <Carousel
+        interval={this.props.interval}
         activeIndex={activeIndex}
         next={this.next}
         previous={this.previous}

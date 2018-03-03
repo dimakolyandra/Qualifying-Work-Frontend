@@ -3,7 +3,29 @@ import BaseControlledCarousel from '../components/BaseControlledCarousel';
 import LoginForm from '../components/LoginForm';
 import RegistrationForm from '../components/RegistrationForm';
 import Animation from '../components/Animation';
+import ChooseBroker from '../components/ChooseBroker';
 
+import imgSrc1 from '../images/2.jpg'
+import imgSrc2 from '../images/3.jpg'
+import imgSrc3 from '../images/4.jpg'
+
+const items = [
+  {
+    src: imgSrc1,
+    altText: 'Slide 1',
+    caption: 'Удобство работы!'
+  },
+  {
+    src: imgSrc2,
+    altText: 'Slide 2',
+    caption: 'Множество партнёров!'
+  },
+  {
+    src: imgSrc3,
+    altText: 'Slide 3',
+    caption: 'Возможность работы с несколькими брокерами!'
+  }
+];
 
 class MainContainer extends Component{
     constructor(props){
@@ -18,6 +40,13 @@ class MainContainer extends Component{
 
     render(){
         let pageContent = null;
+        var carousel = (
+            <BaseControlledCarousel
+                interval={5000}
+                items={items}
+                showCarouselCaptions={true}
+                imageClass="background"
+            />);
         if (this.state.status == 'login'){
             pageContent = <LoginForm changeAppState={this.handleStateChange}/>
         }
@@ -28,12 +57,13 @@ class MainContainer extends Component{
             pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
         }
         if (this.state.status == 'chooseBroker'){
-            pageContent = <h1> CHOOSE BROKER </h1>;
+            pageContent = null
+            carousel = <ChooseBroker/>;
         }
         return (
             <div class="MainContainer">
                 <Animation transitionName="carousel-anim">
-                    <BaseControlledCarousel/>
+                    {carousel}
                 </Animation>
             {pageContent}
          </div>

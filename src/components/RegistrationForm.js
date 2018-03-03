@@ -40,7 +40,7 @@ class RegistrationForm extends Component{
 
         if (this.state.stageRegistrationIndex == 0){
             // TODO Здесь будет ajax запрос, проверяющий,занят ли логин
-            this.setState({showModal: true})
+            this.setState({showModal: false})
         }
         else if (this.state.stageRegistrationIndex == 1){
             this.props.changeAppState('chooseBroker');
