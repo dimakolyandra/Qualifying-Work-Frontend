@@ -16,6 +16,7 @@ class BaseControlledCarousel extends Component {
     this.goToIndex = this.goToIndex.bind(this);
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   onExiting() {
@@ -24,6 +25,11 @@ class BaseControlledCarousel extends Component {
 
   onExited() {
     this.animating = false;
+  }
+
+  onClick(){
+    if (this.props.onChosen != undefined)
+      this.props.onChosen(this.state.activeIndex);
   }
 
   next() {
@@ -64,7 +70,14 @@ class BaseControlledCarousel extends Component {
           onExited={this.onExited}
           key={item.src}
         >
-          <img className={this.props.imageClass} src={item.src} alt={item.altText} width={imgWidth} height={imgHeight}/>
+          <img
+            className={this.props.imageClass}
+            src={item.src}
+            alt={item.altText}
+            width={imgWidth}
+            height={imgHeight}
+            onClick={this.onClick}
+          />
           {caption}
         </CarouselItem>
       );

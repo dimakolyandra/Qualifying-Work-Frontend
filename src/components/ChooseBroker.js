@@ -26,10 +26,16 @@ class ChooseBroker extends Component {
     super(props);
     this.state = {currDescr: items[0].caption}
     this.changeDescription = this.changeDescription.bind(this)
+    this.onChosen = this.onChosen.bind(this)
   }
 
   changeDescription(indexActiveItem){
     this.setState({currDescr: items[indexActiveItem].caption})
+  }
+
+  onChosen(indexOfChosen){
+    console.log("INDEX" + indexOfChosen);
+    this.props.changeAppState("finish-registration");
   }
 
   render() {
@@ -38,11 +44,13 @@ class ChooseBroker extends Component {
         <div class="four"><h1>Меню выбора брокера</h1></div>
         <div className="chose-broker-carousel">
           <BaseControlledCarousel
+              clickable={true}
               interval={false}
               imageClass="broker"
               items={items}
               changeDescription={this.changeDescription}
-              showCarouselCaptions={false}/>
+              showCarouselCaptions={false}
+              onChosen={this.onChosen}/>
         </div>
         <div className="broker-info">
           <span class="before"></span>

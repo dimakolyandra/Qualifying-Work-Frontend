@@ -42,6 +42,7 @@ class MainContainer extends Component{
         let pageContent = null;
         var carousel = (
             <BaseControlledCarousel
+                clickable={false}
                 interval={5000}
                 items={items}
                 showCarouselCaptions={true}
@@ -58,7 +59,7 @@ class MainContainer extends Component{
         }
         if (this.state.status == 'chooseBroker'){
             pageContent = null
-            carousel = <ChooseBroker/>;
+            carousel = <ChooseBroker changeAppState={this.handleStateChange}/>;
         }
         return (
             <div class="MainContainer">
