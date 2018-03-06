@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import LoginDataForm from './LoginDataForm'
 import PersonDataForm from './PersonDataForm'
 import ContactsDataForm from './ContactsDataForm'
-import Modal from './ModalForm';
+import Modal from '../common/ModalForm';
 
 const stagesOfRegistration = [
     'loginData',

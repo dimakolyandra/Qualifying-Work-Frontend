@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import Form from './Form'
-import FormInput from './FormInput'
+import Form from '../common/Form'
+import FormInput from '../common/FormInput'
 
 
 class PersonDataForm extends Component{

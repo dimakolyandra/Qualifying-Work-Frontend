@@ -1,26 +1,26 @@
 import React, {Component} from 'react'
-import Form from './Form'
-import FormInput from './FormInput'
+import Form from '../common/Form'
+import FormInput from '../common/FormInput'
 
 
-class LoginDataForm extends Component{
+class ContactsDataForm extends Component{
     render(){
         return (
                 <div>
-                    <Form id="loginData" class="form">
+                    <Form id="contactsData" class="form">
                         <FormInput
-                            class="general input-image user_data"
+                            class="general input-image phone"
                             type="text"
-                            placeholder="Введите новый логин"
+                            placeholder="Телефон"
                             onChange={this.props.handleInputChange}
-                            name="login"
+                            name="phone"
                         />
                         <FormInput
-                            class="general input-image user_password"
-                            type="password"
-                            placeholder="Введите новый пароль"
+                            class="general input-image email"
+                            type="text"
+                            placeholder="Электр. почта"
                             onChange={this.props.handleInputChange}
-                            name="password"
+                            name="email"
                         />
                         <p class="for-form">
                             <button class="general selectedbtn" onClick={this.props.submitNext}>Далее</button>
@@ -34,4 +34,4 @@ class LoginDataForm extends Component{
     }
 }
 
-export default LoginDataForm;
+export default ContactsDataForm;

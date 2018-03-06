@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import  BaseControlledCarousel from './BaseControlledCarousel'
+import Modal from './ModalForm'
+import Animation from './Animation';
+
 
 const items = [
   {
@@ -24,9 +27,18 @@ class ChooseBroker extends Component {
 
   constructor(props){
     super(props);
-    this.state = {currDescr: items[0].caption}
-    this.changeDescription = this.changeDescription.bind(this)
-    this.onChosen = this.onChosen.bind(this)
+    this.state = {
+      currDescr: items[0].caption,
+      showModal: false
+    };
+    this.changeDescription = this.changeDescription.bind(this);
+    this.onChosen = this.onChosen.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  closeModal(){
+    this.setState({showModal: false});
+    this.props.changeAppState("trader-cabinet");
   }
 
   changeDescription(indexActiveItem){
@@ -34,12 +46,20 @@ class ChooseBroker extends Component {
   }
 
   onChosen(indexOfChosen){
+    // Здесь будет ajax запрос к бэку для того, чтобы
+    // узнать фамилию работника
     console.log("INDEX" + indexOfChosen);
-    this.props.changeAppState("finish-registration");
+    this.setState({showModal: true});
+    //this.props.changeAppState("finish-registration");
   }
 
   render() {
+    if (this.state.showModal){
+      return <Modal parentOnClose={this.closeModal}>Вас будет обслуживать Иван Иванов</Modal>;
+    }
     return (
+<Animation transitionName="carousel-anim">
+
       <div>
         <div class="four"><h1>Меню выбора брокера</h1></div>
         <div className="chose-broker-carousel">
@@ -59,7 +79,7 @@ class ChooseBroker extends Component {
            </p>
         </div>
       </div>
-
+</Animation>
     );
   }
 }

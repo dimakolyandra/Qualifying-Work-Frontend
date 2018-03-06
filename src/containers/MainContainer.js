@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import BaseControlledCarousel from '../components/BaseControlledCarousel';
+import BaseControlledCarousel from '../components/common/BaseControlledCarousel';
 import LoginForm from '../components/LoginForm';
-import RegistrationForm from '../components/RegistrationForm';
-import Animation from '../components/Animation';
-import ChooseBroker from '../components/ChooseBroker';
+import RegistrationForm from '../components/registration/RegistrationForm';
+import Animation from '../components/common/Animation';
+import ChooseBroker from '../components/common/ChooseBroker';
+import TraderCabinet from '../components/trader_cabinet/TraderCabinet';
 
 import imgSrc1 from '../images/2.jpg'
 import imgSrc2 from '../images/3.jpg'
@@ -34,8 +35,9 @@ class MainContainer extends Component{
         this.handleStateChange = this.handleStateChange.bind(this);
     }
 
-    handleStateChange(newStatus){
-        this.setState({status: newStatus});
+    handleStateChange(newStatus, userData){
+        var user = userData || {};
+        this.setState({status: newStatus, user});
     }
 
     render(){
@@ -60,6 +62,10 @@ class MainContainer extends Component{
         if (this.state.status == 'chooseBroker'){
             pageContent = null
             carousel = <ChooseBroker changeAppState={this.handleStateChange}/>;
+        }
+        if (this.state.status == 'trader-cabinet'){
+            var carousel = null
+            pageContent = <TraderCabinet/>
         }
         return (
             <div class="MainContainer">

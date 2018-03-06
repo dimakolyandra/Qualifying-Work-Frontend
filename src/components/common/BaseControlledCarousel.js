@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Animation from './Animation';
+
 import {
   Carousel,
   CarouselItem,
