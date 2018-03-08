@@ -1,40 +1,10 @@
-.four {
-  background:  #bbbbbb;
-  height: 120px;
-  padding: 50px 20px;
-  text-align: center;
+.title{
+  background:  white;
+  border-style: groove;
+  height: 80px;
+  padding: 10px 10px;
 }
-.four h1 {
-  font-family: inherit;
-  position: relative;
-  color: #485648;
-  font-size: 25px;
-  font-weight: normal;
-  padding: 8px 20px 7px 20px;
-  border-top: 4px solid;
-  border-left: 4px solid;
-  display: inline-block;
-  margin: 0;
-  line-height: 1;
-}
-.four h1:before {
-  content: "";
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  top: -28px;
-  left: -28px;
-  border: 4px solid white;
-  box-sizing: border-box;
-  border-color: #485648;
 
-}
-@media (max-width: 450px) {
-  .four h1 {font-size: 36px;}
-  .four h1:before {
-    width: 20px;
-    height: 20px;
-    top: -20px;
-    left: -20px;
-  }
+.chose-broker-title{
+  background:  black;
 }

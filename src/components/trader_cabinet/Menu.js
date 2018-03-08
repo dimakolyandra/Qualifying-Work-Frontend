@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button} from 'reactstrap';
+import Dropdown from './Dropdown';
 
-var menuData = [
+const menuData = [
   {
     "id": "opened-deal",
     "label": "Открытые сделки"
@@ -9,10 +10,6 @@ var menuData = [
   {
     "id": "archieve-deal",
     "label": "Архив сделок"
-  },
-  {
-    "id": "quotations",
-    "label": "Котировки валют"
   },
   {
     "id": "chose-broker",
@@ -49,7 +46,7 @@ class Menu extends Component {
       (item) => {
         return (
           <NavItem>
-            <Button id={item.id} on onClick={() => this.props.setWorkPanel(item.id)}>{item.label}</Button>
+            <Button id={item.id} onClick={() => this.props.setWorkPanel(item.id)}>{item.label}</Button>
           </NavItem>
         );
       }
@@ -62,6 +59,7 @@ class Menu extends Component {
           <Collapse isOpen={!this.state.collapsed} navbar>
             <Nav navbar>
               {menuItems}
+              <Dropdown setWorkPanel={this.props.setWorkPanel}/>
             </Nav>
           </Collapse>
         </Navbar>

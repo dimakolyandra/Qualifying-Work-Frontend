@@ -1,13 +1,45 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
 
-class Title extends Component{
-    render(){
-        return  (
-            <div className="four">
-                <h1>{this.props.text}</h1>
-            </div>
-        );
-    }
+export default class Title extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+  render() {
+    return (
+      <div>
+        <Navbar  className= "title" color="faded" light expand="md">
+          <NavbarBrand href="/">{this.props.text}</NavbarBrand>
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="https://github.com/dimakolyandra/Qualifying-Work-Frontend">Github</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
+  }
 }
-
-export default Title;

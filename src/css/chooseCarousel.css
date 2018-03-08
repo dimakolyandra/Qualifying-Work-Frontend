@@ -1,6 +1,7 @@
 .broker-info{
   text-align: center;
-  background-color: #bbbbbb;
+  background-color: white;
+  border: groove;
   position: absolute;
   vertical-align: middle;
   top: 60%;

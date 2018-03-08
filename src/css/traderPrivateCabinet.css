@@ -1,6 +1,6 @@
 
 #menu{
-    position: absolute; left: 0; top: 120px; width: 15%; height: 100%;
+    position: absolute; left: 0; top: 79px; width: 15%; height: 100%;
     border-style: groove;
     background-color: #bbbbbb;
 }
@@ -9,12 +9,12 @@
     position: absolute; right: 0; top: 120px; width: 85%; height: 500px;
 }
 
-li.nav-item{
+li.nav-item, .btn-group{
     margin-top: 10px;
 }
 
 .mr-2{
-    position: fixed;
+    position: absolute;
     left: 100px;
-    top: 130px;
+    top: 10px;
 }
