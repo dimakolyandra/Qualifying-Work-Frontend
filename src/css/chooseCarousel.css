@@ -1,6 +1,6 @@
 .broker-info{
   text-align: center;
-  background-color: black;
+  background-color: #bbbbbb;
   position: absolute;
   vertical-align: middle;
   top: 60%;
@@ -31,7 +31,7 @@
 .broker-info-text{
   font-size: 20pt;
   opacity: 1;
-  color: white;
+  color: #485648;
   display: inline-block;
   vertical-align: middle;
 }

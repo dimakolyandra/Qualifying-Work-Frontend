@@ -4,6 +4,7 @@ import './css/modal.css';
 import './css/chooseCarousel.css';
 import './css/title.css';
 import './css/form.css';
+import './css/traderPrivateCabinet.css';
 
 import ReactDom from 'react-dom';
 import React from 'react';

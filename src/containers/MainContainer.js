@@ -38,37 +38,38 @@ class MainContainer extends Component{
     handleStateChange(newStatus, userData){
         var user = userData || {};
         this.setState({status: newStatus, user});
+
     }
 
     render(){
-        let pageContent = null;
-        var carousel = (
-            <BaseControlledCarousel
-                clickable={false}
-                interval={5000}
-                items={items}
-                showCarouselCaptions={true}
-                imageClass="background"
-            />);
-        if (this.state.status == 'login'){
-            pageContent = <LoginForm changeAppState={this.handleStateChange}/>
-        }
-        if (this.state.status == 'logged'){
-            pageContent = <h1>LOGGED</h1>;
-        }
-        if (this.state.status == 'registration'){
-            pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
-        }
-        if (this.state.status == 'chooseBroker'){
-            pageContent = null
-            carousel = <ChooseBroker changeAppState={this.handleStateChange}/>;
-        }
-        if (this.state.status == 'trader-cabinet'){
+        // let pageContent = null;
+        // var carousel = (
+        //     <BaseControlledCarousel
+        //         clickable={false}
+        //         interval={5000}
+        //         items={items}
+        //         showCarouselCaptions={true}
+        //         imageClass="background"
+        //     />);
+        // if (this.state.status == 'login'){
+        //     pageContent = <LoginForm changeAppState={this.handleStateChange}/>
+        // }
+        // if (this.state.status == 'logged'){
+        //     pageContent = <h1>LOGGED</h1>;
+        // }
+        // if (this.state.status == 'registration'){
+        //     pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
+        // }
+        // if (this.state.status == 'chooseBroker'){
+            // var pageContent = null
+            // var carousel = <ChooseBroker changeAppState={this.handleStateChange}/>;
+        // }
+        // if (this.state.status == 'trader-cabinet'){
             var carousel = null
-            pageContent = <TraderCabinet/>
-        }
+            var pageContent = <TraderCabinet/>;
+        // // }
         return (
-            <div class="MainContainer">
+            <div className="MainContainer">
                 <Animation transitionName="carousel-anim">
                     {carousel}
                 </Animation>

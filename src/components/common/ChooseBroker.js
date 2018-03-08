@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import  BaseControlledCarousel from './BaseControlledCarousel'
 import Modal from './ModalForm'
 import Animation from './Animation';
+import Title from './Title';
 
 
 const items = [
@@ -58,28 +59,27 @@ class ChooseBroker extends Component {
       return <Modal parentOnClose={this.closeModal}>Вас будет обслуживать Иван Иванов</Modal>;
     }
     return (
-<Animation transitionName="carousel-anim">
-
-      <div>
-        <div class="four"><h1>Меню выбора брокера</h1></div>
-        <div className="chose-broker-carousel">
-          <BaseControlledCarousel
-              clickable={true}
-              interval={false}
-              imageClass="broker"
-              items={items}
-              changeDescription={this.changeDescription}
-              showCarouselCaptions={false}
-              onChosen={this.onChosen}/>
+      <Animation transitionName="carousel-anim">
+        <div>
+          <Title text="Выберите начального брокера"/>
+          <div className="chose-broker-carousel">
+            <BaseControlledCarousel
+                clickable={true}
+                interval={false}
+                imageClass="broker"
+                items={items}
+                changeDescription={this.changeDescription}
+                showCarouselCaptions={false}
+                onChosen={this.onChosen}/>
+          </div>
+          <div className="broker-info">
+            <span class="before"></span>
+            <p className="broker-info-text">
+              {this.state.currDescr}
+             </p>
+          </div>
         </div>
-        <div className="broker-info">
-          <span class="before"></span>
-          <p className="broker-info-text">
-            {this.state.currDescr}
-           </p>
-        </div>
-      </div>
-</Animation>
+      </Animation>
     );
   }
 }
