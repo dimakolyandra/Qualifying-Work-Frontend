@@ -1,69 +1,25 @@
 import React, {Component} from 'react';
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button } from 'reactstrap';
-import Menu from './Menu';
 import Title from '../common/Title';
+import TableData from '../common/Table';
+import  DataPagination from '../common/DataPagination';
 import Chart from './Chart';
-import Filter from './Filter';
-
-const eur = [
-  {x: 1, y: 13000},
-  {x: 2, y: 16500},
-  {x: 3, y: 14250},
-  {x: 4, y: 10000},
-  {x: 5, y: 13000},
-  {x: 6, y: 16500},
-  {x: 7, y: 14250},
-  {x: 8, y: 11000},
-  {x: 9, y: 13000},
-  {x: 10,y: 16500},
-];
-
-const usd = [
-  {x: 1, y: 1300},
-  {x: 2, y: 2650},
-  {x: 3, y: 1125},
-  {x: 4, y: 1001},
-  {x: 5, y: 1102},
-  {x: 6, y: 1123},
-  {x: 7, y: 1425},
-  {x: 8, y: 1567},
-  {x: 9, y: 1872},
-  {x: 10,y: 1873},
-];
-
-const gbr = [
-  {x: 1, y: 1003000},
-  {x: 2, y: 1002650},
-  {x: 3, y: 1001125},
-  {x: 4, y: 1001001},
-  {x: 5, y: 1102000},
-  {x: 6, y: 1123000},
-  {x: 7, y: 1425000},
-  {x: 8, y: 1567000},
-  {x: 9, y: 1872000},
-  {x: 10,y: 1873000},
-];
-
-const cny = [
-  {x: 1, y: 1},
-  {x: 2, y: 1},
-  {x: 3, y: 1},
-  {x: 4, y: 1},
-  {x: 5, y: 1},
-  {x: 6, y: 1},
-  {x: 7, y: 1},
-  {x: 8, y: 1},
-  {x: 9, y: 1},
-  {x: 10,y: 1},
-];
+import Menu from './Menu';
+import {eur, usd, gbr, cny} from '../../mockedData/currencyData'
+import {openedDeal} from '../../mockedData/openedDealData'
 
 class TraderCabinet extends Component {
 
   constructor(props){
     super(props);
-    this.state = {workPanel: "default"};
+    this.state = {
+      workPanel: "default",
+      currentPage: 0
+    };
     this.setWorkPanel = this.setWorkPanel.bind(this);
     this.getChartsData = this.getChartsData.bind(this);
+    this.getOpenedDeal = this.getOpenedDeal.bind(this);
+    this.increasePage = this.increasePage.bind(this);
   }
 
   setWorkPanel(workPanel){
@@ -92,15 +48,43 @@ class TraderCabinet extends Component {
     return data;
   }
 
+  getOpenedDeal(currentPage){
+    // Здесь будет запрос к бэку, получающий порцию данных
+    const indBegin = currentPage * 5;
+    const indEnd = (currentPage + 1) * 5;
+    console.log(indBegin);
+    console.log(indEnd);
+    return openedDeal.slice(indBegin, indEnd);
+  }
+
+  increasePage(){
+    this.setState({currentPage: this.state.currentPage++});
+  }
+
+  redusePage(){
+    this.setState({currentPage: this.state.currentPage--});
+  }
+
   render() {
     var workPanel = null;
+    var dataPagination = null;
 
     if (this.state.workPanel.includes("quotations")){
       const currId = this.state.workPanel.split(":")[1];
       var data = this.getChartsData(currId);
-      console.log(data);
-      workPanel = <Chart data={data}/>;
+      workPanel = <Chart title={currId.toUpperCase()} data={data}/>;
     }
+
+    if(this.state.workPanel.includes("opened-deal")){
+      var headData = this.getOpenedDeal(this.state.currentPage);
+      workPanel = <TableData data={headData}/>
+      dataPagination = (<DataPagination
+                          pages={new Array()}
+                          redusePage={this.redusePage}
+                          increasePage={this.increasePage}
+                        />);
+    }
+
     return (
         <div id="peson-cabinet">
           <Title text="Личный кабинет трейдера"/>
@@ -109,6 +93,7 @@ class TraderCabinet extends Component {
           </div>
           <div id="workPanel">
             {workPanel}
+            {dataPagination}
           </div>
         </div>
     );

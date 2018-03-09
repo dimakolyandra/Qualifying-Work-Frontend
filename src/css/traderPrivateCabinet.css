@@ -18,3 +18,16 @@ li.nav-item, .btn-group{
     left: 100px;
     top: 10px;
 }
+
+.table{
+    position: absolute;
+    left: 50px;
+    top: 20px;
+    width: 1050px;
+}
+
+.pagination{
+    position: absolute;
+    top: 100%;
+    left: 40%;
+}

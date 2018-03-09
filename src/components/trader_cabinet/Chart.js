@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { VictoryLine, VictoryChart, VictoryAxis, VictoryTheme, VictoryLabel } from 'victory';
+import { VictoryLine, VictoryLegend, VictoryChart, VictoryAxis, VictoryTheme, VictoryLabel } from 'victory';
 
 
 class Chart extends Component{
@@ -11,6 +11,16 @@ class Chart extends Component{
                 theme={VictoryTheme.material}
                 width={600}
                 height={400}>
+                <VictoryLegend x={200} y={0}
+                  title={this.props.title}
+                  centerTitle
+                  orientation="horizontal"
+                  gutter={20}
+                  style={{ border: { stroke: "black" }, title: {fontSize: 20 } }}
+                  data={[
+                    { name: "x - время" }, { name: "y - цена" }
+                  ]}
+                />
                 <VictoryLine
                     data={this.props.data}
                     animate={{
