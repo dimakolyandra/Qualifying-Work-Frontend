@@ -14,13 +14,21 @@ class TraderCabinet extends Component {
 
   constructor(props){
     super(props);
+    this.sizeOfPage = 5;
+    this.pagesCount = 3;
+    this.pagesBorder = {
+      rightOpenedDealBorder: this.pagesCount,
+      leftOpenedDealBorder: 0,
+      rightArchieveDealBorder: this.pagesCount,
+      leftArchieveDealBorder:  0,
+    };
+
     this.state = {
       workPanel: "default",
       currentOpenedDealPage: 0,
-      currentArchieveDealPage: 0
+      currentArchieveDealPage:  0,
     };
-    this.sizeOfPage = 5;
-    this.pagesCount = 3;
+
     this.setWorkPanel = this.setWorkPanel.bind(this);
     this.getChartsData = this.getChartsData.bind(this);
     this.getPagesItems = this.getPagesItems.bind(this);
@@ -66,7 +74,6 @@ class TraderCabinet extends Component {
   }
 
   increaseOpenedDealPage(){
-    console.log("INCREASE")
     this.setState({currentOpenedDealPage: ++this.state.currentOpenedDealPage});
   }
 
@@ -82,7 +89,6 @@ class TraderCabinet extends Component {
   }
 
   setOpenedDealPage(index){
-    console.log("SET PAGE");
     this.setState({currentOpenedDealPage: index});
   }
 
@@ -107,7 +113,6 @@ class TraderCabinet extends Component {
   }
 
   setArchieveDealPage(index){
-    console.log("SET PAGE");
     this.setState({currentArchieveDealPage: index});
   }
 
@@ -116,29 +121,27 @@ class TraderCabinet extends Component {
     return archieveDealData.length;
   }
 
-  getPagesItems(currPage, countData){
+  getLength(indLeft, indRight){
+    return indRight - indLeft;
+  }
+
+  getPagesItems(currPage, countData, leftBorderProp, rightBorderProp){
     let pagesItem = Array();
     let countPage = Math.ceil(countData / this.sizeOfPage);
-    let startIndex;
-    let endIndex;
-
     if(countPage <= this.pagesCount){
-      startIndex = 0;
-      endIndex = countPage;
+      this.pagesBorder[leftBorderProp] = 0;
+      this.pagesBorder[rightBorderProp] = countPage;
     }
-    else if (currPage == 0){
-      startIndex = 0;
-      endIndex = this.pagesCount;
+    else if(currPage >= this.pagesBorder[rightBorderProp]){
+      this.pagesBorder[leftBorderProp] = currPage;
+      this.pagesBorder[rightBorderProp] = Math.min(currPage + 3, countPage);
     }
-    else if( currPage > countPage - this.pagesCount){
-      startIndex = countPage - this.pagesCount;
-      endIndex = countPage;
+    else if(currPage < this.pagesBorder[leftBorderProp]){
+      let length = this.getLength(this.pagesBorder[leftBorderProp], this.pagesBorder[rightBorderProp]);
+      this.pagesBorder[leftBorderProp] = Math.max(currPage - 2, 0);
+      this.pagesBorder[rightBorderProp] = this.pagesBorder[rightBorderProp] - length;
     }
-    else{
-        startIndex = currPage;
-        endIndex = currPage + this.pagesCount;
-    }
-    for (let i = startIndex; i < endIndex; i++){
+    for (let i = this.pagesBorder[leftBorderProp]; i < this.pagesBorder[rightBorderProp]; i++){
       pagesItem.push(i + 1);
     }
     return pagesItem;
@@ -157,7 +160,11 @@ class TraderCabinet extends Component {
     if(this.state.workPanel.includes("opened-deal")){
       var headData = this.getOpenedDeal();
       var countOpenDealData = this.getOpenedDealCount();
-      var pagesItems = this.getPagesItems(this.state.currentOpenedDealPage, countOpenDealData);
+      var pagesItems = this.getPagesItems(
+        this.state.currentOpenedDealPage,
+        countOpenDealData,
+        "leftOpenedDealBorder",
+        "rightOpenedDealBorder");
 
       var isPrevDisabl = true ? this.state.currentOpenedDealPage == 0 : false;
       var isNextDisabl = true ? (this.state.currentOpenedDealPage * this.sizeOfPage + this.sizeOfPage >= countOpenDealData): false;
@@ -176,7 +183,11 @@ class TraderCabinet extends Component {
     if (this.state.workPanel.includes("archieve-deal")){
       var headData = this.getArchieveDeal();
       var countArchieveDealData = this.getArchieveDealCount();
-      var pagesItems = this.getPagesItems(this.state.currentArchieveDealPage, countArchieveDealData);
+      var pagesItems = this.getPagesItems(
+        this.state.currentArchieveDealPage,
+        countArchieveDealData,
+        "leftArchieveDealBorder",
+        "rightArchieveDealBorder");
 
       var isPrevDisabl = true ? this.state.currentArchieveDealPage == 0 : false;
       var isNextDisabl = true ? (this.state.currentArchieveDealPage * this.sizeOfPage + this.sizeOfPage >= countArchieveDealData): false;
