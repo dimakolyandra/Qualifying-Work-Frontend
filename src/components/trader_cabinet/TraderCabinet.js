@@ -134,11 +134,11 @@ class TraderCabinet extends Component {
     }
     else if(currPage >= this.pagesBorder[rightBorderProp]){
       this.pagesBorder[leftBorderProp] = currPage;
-      this.pagesBorder[rightBorderProp] = Math.min(currPage + 3, countPage);
+      this.pagesBorder[rightBorderProp] = Math.min(currPage + this.pagesCount, countPage);
     }
     else if(currPage < this.pagesBorder[leftBorderProp]){
       let length = this.getLength(this.pagesBorder[leftBorderProp], this.pagesBorder[rightBorderProp]);
-      this.pagesBorder[leftBorderProp] = Math.max(currPage - 2, 0);
+      this.pagesBorder[leftBorderProp] = Math.max(currPage - this.pagesCount + 1, 0);
       this.pagesBorder[rightBorderProp] = this.pagesBorder[rightBorderProp] - length;
     }
     for (let i = this.pagesBorder[leftBorderProp]; i < this.pagesBorder[rightBorderProp]; i++){
