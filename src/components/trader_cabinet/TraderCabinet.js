@@ -5,10 +5,11 @@ import TableData from '../common/Table';
 import  DataPagination from '../common/DataPagination';
 import Chart from './Chart';
 import Menu from './Menu';
+import Chat from './Chat';
 import {eur, usd, gbr, cny} from '../../mockedData/currencyData';
 import {openedDeal} from '../../mockedData/openedDealData';
 import {archieveDealData} from '../../mockedData/archieveDealData';
-
+import {msgs} from '../../mockedData/messagesData';
 
 class TraderCabinet extends Component {
 
@@ -45,6 +46,11 @@ class TraderCabinet extends Component {
     this.reduceArchieveDealPage = this.reduceArchieveDealPage.bind(this);
     this.setArchieveDealPage = this.setArchieveDealPage.bind(this);
 
+    this.getDialogs = this.getDialogs.bind(this);
+  }
+
+  getDialogs(){
+    return msgs;
   }
 
   setWorkPanel(workPanel){
@@ -121,10 +127,6 @@ class TraderCabinet extends Component {
     return archieveDealData.length;
   }
 
-  getLength(indLeft, indRight){
-    return indRight - indLeft;
-  }
-
   getPagesItems(currPage, countData, leftBorderProp, rightBorderProp){
     let pagesItem = Array();
     let countPage = Math.ceil(countData / this.sizeOfPage);
@@ -137,7 +139,7 @@ class TraderCabinet extends Component {
       this.pagesBorder[rightBorderProp] = Math.min(currPage + this.pagesCount, countPage);
     }
     else if(currPage < this.pagesBorder[leftBorderProp]){
-      let length = this.getLength(this.pagesBorder[leftBorderProp], this.pagesBorder[rightBorderProp]);
+      let length = this.pagesBorder[rightBorderProp] - this.pagesBorder[leftBorderProp];
       this.pagesBorder[leftBorderProp] = Math.max(currPage - this.pagesCount + 1, 0);
       this.pagesBorder[rightBorderProp] = this.pagesBorder[rightBorderProp] - length;
     }
@@ -150,6 +152,11 @@ class TraderCabinet extends Component {
   render() {
     var workPanel = null;
     var dataPagination = null;
+
+    if (this.state.workPanel.includes("chat")){
+      var dialogs = this.getDialogs();
+      workPanel = <Chat dataSource={dialogs}/>;
+    }
 
     if (this.state.workPanel.includes("quotations")){
       const currId = this.state.workPanel.split(":")[1];
@@ -164,7 +171,8 @@ class TraderCabinet extends Component {
         this.state.currentOpenedDealPage,
         countOpenDealData,
         "leftOpenedDealBorder",
-        "rightOpenedDealBorder");
+        "rightOpenedDealBorder"
+      );
 
       var isPrevDisabl = true ? this.state.currentOpenedDealPage == 0 : false;
       var isNextDisabl = true ? (this.state.currentOpenedDealPage * this.sizeOfPage + this.sizeOfPage >= countOpenDealData): false;
@@ -187,7 +195,8 @@ class TraderCabinet extends Component {
         this.state.currentArchieveDealPage,
         countArchieveDealData,
         "leftArchieveDealBorder",
-        "rightArchieveDealBorder");
+        "rightArchieveDealBorder"
+      );
 
       var isPrevDisabl = true ? this.state.currentArchieveDealPage == 0 : false;
       var isNextDisabl = true ? (this.state.currentArchieveDealPage * this.sizeOfPage + this.sizeOfPage >= countArchieveDealData): false;
