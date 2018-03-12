@@ -3,6 +3,7 @@ import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, But
 import Title from '../common/Title';
 import TableData from '../common/Table';
 import  DataPagination from '../common/DataPagination';
+import NewDealForm from './NewDealForm';
 import GroupButtons from './GroupButtons';
 import Chart from './Chart';
 import Menu from './Menu';
@@ -168,6 +169,11 @@ class TraderCabinet extends Component {
   render() {
     var workPanel = null;
     var dataPagination = null;
+
+    if(this.state.workPanel.includes("new-deal")){
+      var brokersList = this.getListOfBrokers();
+      workPanel = <NewDealForm userBrokers={brokersList}/>;
+    }
 
     if(this.state.workPanel.includes("chose-broker")){
       var brokersList = this.getListOfBrokers();

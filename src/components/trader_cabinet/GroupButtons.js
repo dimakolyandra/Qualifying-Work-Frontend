@@ -38,7 +38,7 @@ class GroupButtons extends React.Component {
     return (
       <div>
         <h3 className="group-title">{this.props.title}</h3>
-         <div className="group">
+         <div className="group smooth-scroll">
             <ListGroup>
               {items}
             </ListGroup>
