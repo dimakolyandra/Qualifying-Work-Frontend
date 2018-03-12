@@ -3,6 +3,7 @@ import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, But
 import Title from '../common/Title';
 import TableData from '../common/Table';
 import  DataPagination from '../common/DataPagination';
+import GroupButtons from './GroupButtons';
 import Chart from './Chart';
 import Menu from './Menu';
 import Chat from './Chat';
@@ -10,6 +11,8 @@ import {eur, usd, gbr, cny} from '../../mockedData/currencyData';
 import {openedDeal} from '../../mockedData/openedDealData';
 import {archieveDealData} from '../../mockedData/archieveDealData';
 import {msgs} from '../../mockedData/messagesData';
+import {brokersList} from '../../mockedData/brokersList';
+
 
 class TraderCabinet extends Component {
 
@@ -47,6 +50,19 @@ class TraderCabinet extends Component {
     this.setArchieveDealPage = this.setArchieveDealPage.bind(this);
 
     this.getDialogs = this.getDialogs.bind(this);
+    this.getListOfBrokers = this.getListOfBrokers.bind(this);
+    this.addNewBrokerToUser = this.addNewBrokerToUser.bind(this);
+  }
+
+  getListOfBrokers(){
+    // Здесь будет запрос, для получения списка брокеров,
+    // не связанных с данным пользователем
+    return brokersList;
+  }
+
+  addNewBrokerToUser(newBrokerId){
+    // Здесь будет запрос, обновляющий список брокеров
+    console.log("ADDED NEW BROKER: " + newBrokerId);
   }
 
   getDialogs(){
@@ -153,6 +169,11 @@ class TraderCabinet extends Component {
     var workPanel = null;
     var dataPagination = null;
 
+    if(this.state.workPanel.includes("chose-broker")){
+      var brokersList = this.getListOfBrokers();
+      workPanel = <GroupButtons items={brokersList} title="Выберите нового брокера" onSubmit={this.addNewBrokerToUser}/>;
+    }
+
     if (this.state.workPanel.includes("chat")){
       var dialogs = this.getDialogs();
       workPanel = <Chat dataSource={dialogs}/>;
@@ -226,4 +247,5 @@ class TraderCabinet extends Component {
     );
   }
 }
+
 export default TraderCabinet;
