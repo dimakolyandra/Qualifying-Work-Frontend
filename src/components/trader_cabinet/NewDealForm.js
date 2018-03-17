@@ -6,6 +6,7 @@ export default class Example extends Component {
   render() {
   const brokers = this.props.userBrokers.map((item) => {return <option>{item}</option>});
     return (
+      <div className="new-deal-form">
       <Form>
         <FormGroup>
           <Label for="sellCurr">Валюта продажи</Label>
@@ -39,6 +40,7 @@ export default class Example extends Component {
         </FormGroup>
         <Button className="submit-deal" color="primary">Подтвердить</Button>
       </Form>
+      </div>
     );
   }
 }

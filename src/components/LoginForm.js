@@ -11,7 +11,7 @@ class LoginForm extends Component{
 
     submitEnter(e){
         e.preventDefault();
-        this.props.changeAppState('logged');
+        this.props.changeAppState('trader-cabinet');
     }
 
     submitRegistration(e){

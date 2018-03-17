@@ -1,7 +1,7 @@
-form{
+.new-deal-form{
     position: absolute;
     top: 0%;
-    left: 35%;
+    width: 100%;
 }
 
 .submit-deal{
