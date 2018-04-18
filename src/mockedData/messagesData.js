@@ -1,22 +1,22 @@
 export const msgs = [
     {
         id: 1,
-        avatar: 'https://pp.userapi.com/c837329/v837329238/59b87/MWRxBE4dXJk.jpg',
+        avatar: 'https://pp.userapi.com/c637723/v637723771/5a8f0/7Rr8FyVchro.jpg',
         alt: 'Reactjs',
         title: 'Андрей (Sberbank)',
-        subtitle: 'Здоров',
+        subtitle: 'Здравствуйте, вас будет обслуживать брокер Андрей Иванов',
         date: new Date('2017-08-12'),
         //date: new Date(),
         unread: 1,
     },
     {
         id: 2,
-        avatar: 'https://pp.userapi.com/c841334/v841334801/268d/f_0fK01Vyn0.jpg',
+        avatar: 'https://pp.userapi.com/c837733/v837733133/63692/WTLpwvpWLQM.jpg',
         alt: 'Reactjs',
         title: 'Иван (Forex)',
-        subtitle: 'Привет',
+        subtitle: 'Здравствуйте, вас будет обслуживать брокер Иван Сергеев',
         date: new Date('2018-08-12'),
-        unread: 3,
+        unread: 1,
     },
 
 ]

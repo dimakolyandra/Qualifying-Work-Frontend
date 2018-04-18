@@ -30,7 +30,7 @@ export default class Title extends React.Component {
     return (
       <div>
         <Navbar  className= "title" color="faded" light expand="md">
-          <NavbarBrand href="/">{this.props.text}</NavbarBrand>
+          <NavbarBrand className={this.props.position} href="/">{this.props.text}</NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>

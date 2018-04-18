@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import Title from '../common/Title';
 import TableData from '../common/Table';
-import  DataPagination from '../common/DataPagination';
 import NewDealForm from './NewDealForm';
+import WithdrawalOfFunds from './WithdrawalOfFunds';
 import GroupButtons from './GroupButtons';
+import Animation from '../common/Animation';
 import Chart from './Chart';
+import PaginationDisplaying from './PaginationDisplaying';
 import Menu from './Menu';
 import Chat from './Chat';
 import {eur, usd, gbr, cny} from '../../mockedData/currencyData';
@@ -13,6 +15,7 @@ import {openedDeal} from '../../mockedData/openedDealData';
 import {archieveDealData} from '../../mockedData/archieveDealData';
 import {msgs} from '../../mockedData/messagesData';
 import {brokersList} from '../../mockedData/brokersList';
+import {accountData} from '../../mockedData/balanceAccounts';
 
 
 class TraderCabinet extends Component {
@@ -53,6 +56,12 @@ class TraderCabinet extends Component {
     this.getDialogs = this.getDialogs.bind(this);
     this.getListOfBrokers = this.getListOfBrokers.bind(this);
     this.addNewBrokerToUser = this.addNewBrokerToUser.bind(this);
+
+    this.getAccounts = this.getAccounts.bind(this);
+  }
+
+  getAccounts(){
+    return accountData;
   }
 
   getListOfBrokers(){
@@ -97,6 +106,7 @@ class TraderCabinet extends Component {
   }
 
   increaseOpenedDealPage(){
+    console.log(this.state.currentOpenedDealPage);
     this.setState({currentOpenedDealPage: ++this.state.currentOpenedDealPage});
   }
 
@@ -147,6 +157,7 @@ class TraderCabinet extends Component {
   getPagesItems(currPage, countData, leftBorderProp, rightBorderProp){
     let pagesItem = Array();
     let countPage = Math.ceil(countData / this.sizeOfPage);
+
     if(countPage <= this.pagesCount){
       this.pagesBorder[leftBorderProp] = 0;
       this.pagesBorder[rightBorderProp] = countPage;
@@ -169,6 +180,21 @@ class TraderCabinet extends Component {
   render() {
     var workPanel = null;
     var dataPagination = null;
+
+    if(this.state.workPanel.includes("account-balance")){
+      var headData = this.getAccounts();
+      workPanel = <TableData data={headData}/>
+    }
+
+    if(this.state.workPanel.includes("withdrawal-of-funds")){
+      var headData = this.getAccounts();
+      workPanel = <WithdrawalOfFunds accounts={headData}/>;
+    }
+
+    if(this.state.workPanel.includes("dissolve-broker")){
+      var brokersList = this.getListOfBrokers();
+      workPanel = <GroupButtons items={brokersList} title="Выберите брокера для расторжения договора" onSubmit={this.addNewBrokerToUser}/>;
+    }
 
     if(this.state.workPanel.includes("new-deal")){
       var brokersList = this.getListOfBrokers();
@@ -193,53 +219,42 @@ class TraderCabinet extends Component {
 
     if(this.state.workPanel.includes("opened-deal")){
       var headData = this.getOpenedDeal();
-      var countOpenDealData = this.getOpenedDealCount();
-      var pagesItems = this.getPagesItems(
-        this.state.currentOpenedDealPage,
-        countOpenDealData,
-        "leftOpenedDealBorder",
-        "rightOpenedDealBorder"
-      );
+      workPanel = <TableData data={headData}/>;
 
-      var isPrevDisabl = true ? this.state.currentOpenedDealPage == 0 : false;
-      var isNextDisabl = true ? (this.state.currentOpenedDealPage * this.sizeOfPage + this.sizeOfPage >= countOpenDealData): false;
-
-      workPanel = <TableData data={headData}/>
-      dataPagination = (<DataPagination
-                          pages={pagesItems}
-                          isPrevDisabl={isPrevDisabl}
-                          isNextDisabl={isNextDisabl}
+      dataPagination = (<PaginationDisplaying
+                          getDealCount={this.getOpenedDealCount}
+                          getPagesItems={this.getPagesItems}
+                          currentOpenedPage={this.state.currentOpenedDealPage}
+                          sizeOfPage={this.sizeOfPage}
                           reducePage={this.reduceOpenedDealPage}
                           increasePage={this.increaseOpenedDealPage}
                           setPage={this.setOpenedDealPage}
-                          active={this.state.currentOpenedDealPage}
+                          currentPage={this.state.currentOpenedDealPage}
+                          leftBorder="leftOpenedDealBorder"
+                          rightBorder="rightOpenedDealBorder"
                         />);
     }
+
     if (this.state.workPanel.includes("archieve-deal")){
-      var headData = this.getArchieveDeal();
-      var countArchieveDealData = this.getArchieveDealCount();
-      var pagesItems = this.getPagesItems(
-        this.state.currentArchieveDealPage,
-        countArchieveDealData,
-        "leftArchieveDealBorder",
-        "rightArchieveDealBorder"
-      );
+      var headData = this.getOpenedDeal();
+      workPanel = <TableData data={headData}/>;
 
-      var isPrevDisabl = true ? this.state.currentArchieveDealPage == 0 : false;
-      var isNextDisabl = true ? (this.state.currentArchieveDealPage * this.sizeOfPage + this.sizeOfPage >= countArchieveDealData): false;
-
-      workPanel = <TableData data={headData}/>
-      dataPagination = (<DataPagination
-                          pages={pagesItems}
-                          isPrevDisabl={isPrevDisabl}
-                          isNextDisabl={isNextDisabl}
+      dataPagination = (<PaginationDisplaying
+                          getDealCount={this.getArchieveDealCount}
+                          getPagesItems={this.getPagesItems}
+                          currentOpenedPage={this.state.currentArchieveDealPage}
+                          sizeOfPage={this.sizeOfPage}
                           reducePage={this.reduceArchieveDealPage}
                           increasePage={this.increaseArchieveDealPage}
                           setPage={this.setArchieveDealPage}
-                          active={this.state.currentArchieveDealPage}
+                          currentPage={this.state.currentArchieveDealPage}
+                          leftBorder="leftArchieveDealBorder"
+                          rightBorder="rightArchieveDealBorder"
                         />);
+
     }
     return (
+      <Animation transitionName="carousel-anim">
         <div id="peson-cabinet">
           <Title text="Личный кабинет трейдера"/>
           <div id="menu">
@@ -250,6 +265,7 @@ class TraderCabinet extends Component {
             {dataPagination}
           </div>
         </div>
+      </Animation>
     );
   }
 }

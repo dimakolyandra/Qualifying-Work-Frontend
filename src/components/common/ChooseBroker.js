@@ -61,7 +61,7 @@ class ChooseBroker extends Component {
     return (
       <Animation transitionName="carousel-anim">
         <div>
-          <Title text="Выберите начального брокера"/>
+          <Title position="middle" text="Выберите начального брокера"/>
           <div className="chose-broker-carousel">
             <BaseControlledCarousel
                 clickable={true}

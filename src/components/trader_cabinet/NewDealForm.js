@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import '../../css/newDealForm.css';
 
-export default class Example extends Component {
+export default class newDealForm extends Component {
   render() {
   const brokers = this.props.userBrokers.map((item) => {return <option>{item}</option>});
     return (
-      <div className="new-deal-form">
+      <div className="trader-cabinet-form">
       <Form>
         <FormGroup>
           <Label for="sellCurr">Валюта продажи</Label>
@@ -35,7 +35,7 @@ export default class Example extends Component {
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label for="value">Выберите брокера</Label>
+          <Label for="value">Сумма сделки</Label>
           <Input type="text" name="email" id="exampleEmail" placeholder="Сумма сделки"/>
         </FormGroup>
         <Button className="submit-deal" color="primary">Подтвердить</Button>

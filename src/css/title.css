@@ -5,6 +5,12 @@
   padding: 10px 10px;
 }
 
+.middle{
+  position: absolute;
+  left: 40%;
+  padding: 10px 10px;
+}
+
 .chose-broker-title{
   background:  black;
 }

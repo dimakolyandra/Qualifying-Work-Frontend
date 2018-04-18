@@ -22,7 +22,20 @@ const menuData = [
   {
     "id": "chat",
     "label": "Чат с брокером"
-  }
+  },
+  {
+    "id": "dissolve-broker",
+    "label": "Расторгнуть договор"
+  },
+  {
+    "id": "account-balance",
+    "label": "Баланс счетов"
+  },
+  {
+    "id": "withdrawal-of-funds",
+    "label": "Вывод средств"
+  },
+
 ]
 
 
