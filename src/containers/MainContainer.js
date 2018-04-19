@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import BaseControlledCarousel from '../components/common/BaseControlledCarousel';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/login/LoginForm';
 import RegistrationForm from '../components/registration/RegistrationForm';
 import Animation from '../components/common/Animation';
-import ChooseBroker from '../components/common/ChooseBroker';
+import ChooseBroker from '../components/registration/ChooseBroker';
 import TraderCabinet from '../components/trader_cabinet/TraderCabinet';
 
 import imgSrc1 from '../images/2.jpg'

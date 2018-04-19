@@ -1,24 +1,6 @@
 import React from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const currency = [
-  {
-    "id": "eur",
-    "label": "EUR/RUB"
-  },
-  {
-    "id": "usd",
-    "label": "USD/RUB"
-  },
-  {
-    "id": "gbr",
-    "label": "GBP/RUB"
-  },
-  {
-    "id": "cny",
-    "label": "CNY/RUB"
-  }
-]
 
 class Dropdown extends React.Component {
   constructor(props) {
@@ -37,12 +19,13 @@ class Dropdown extends React.Component {
   }
 
   render() {
-    var currComponents = currency.map(
+    var currComponents = this.props.data.map(
       (item) => {
+        console.log(this.props.keyState);
         return (
           <DropdownItem
             id={item.id}
-            onClick={() => this.props.setWorkPanel("quotations:" + item.id)}>
+            onClick={() => this.props.setWorkPanel(this.props.keyState + ":" + item.id)}>
               {item.label}
           </DropdownItem>
         );

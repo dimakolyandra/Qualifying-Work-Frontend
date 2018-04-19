@@ -2,43 +2,6 @@ import React, {Component} from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button} from 'reactstrap';
 import Dropdown from './Dropdown';
 
-const menuData = [
-  {
-    "id": "opened-deal",
-    "label": "Открытые сделки"
-  },
-  {
-    "id": "archieve-deal",
-    "label": "Архив сделок"
-  },
-  {
-    "id": "chose-broker",
-    "label": "Заключить договор"
-  },
-  {
-    "id": "new-deal",
-    "label": "Новая сделка"
-  },
-  {
-    "id": "chat",
-    "label": "Чат с брокером"
-  },
-  {
-    "id": "dissolve-broker",
-    "label": "Расторгнуть договор"
-  },
-  {
-    "id": "account-balance",
-    "label": "Баланс счетов"
-  },
-  {
-    "id": "withdrawal-of-funds",
-    "label": "Вывод средств"
-  },
-
-]
-
-
 class Menu extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +18,15 @@ class Menu extends Component {
   }
 
   render() {
-    var menuItems = menuData.map(
+    var dropDown;
+    if (this.props.hasDropdown){
+      dropDown = <Dropdown
+                    setWorkPanel={this.props.setWorkPanel}
+                    data={this.props.dropdownData}
+                    keyState={this.props.dropdownKey}
+                  />
+    }
+    var menuItems = this.props.menuData.map(
       (item) => {
         return (
           <NavItem>
@@ -72,7 +43,7 @@ class Menu extends Component {
           <Collapse isOpen={!this.state.collapsed} navbar>
             <Nav navbar>
               {menuItems}
-              <Dropdown setWorkPanel={this.props.setWorkPanel}/>
+              {dropDown}
             </Nav>
           </Collapse>
         </Navbar>

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import Title from '../common/Title';
 import TableData from '../common/Table';
 import NewDealForm from './NewDealForm';
@@ -8,14 +7,71 @@ import GroupButtons from './GroupButtons';
 import Animation from '../common/Animation';
 import Chart from './Chart';
 import PaginationDisplaying from './PaginationDisplaying';
-import Menu from './Menu';
-import Chat from './Chat';
+import Menu from '../common/Menu';
+import Chat from '../common/Chat';
 import {eur, usd, gbr, cny} from '../../mockedData/currencyData';
 import {openedDeal} from '../../mockedData/openedDealData';
 import {archieveDealData} from '../../mockedData/archieveDealData';
 import {msgs} from '../../mockedData/messagesData';
 import {brokersList} from '../../mockedData/brokersList';
 import {accountData} from '../../mockedData/balanceAccounts';
+
+
+const currency = [
+  {
+    "id": "eur",
+    "label": "EUR/RUB"
+  },
+  {
+    "id": "usd",
+    "label": "USD/RUB"
+  },
+  {
+    "id": "gbr",
+    "label": "GBP/RUB"
+  },
+  {
+    "id": "cny",
+    "label": "CNY/RUB"
+  }
+]
+
+
+const menuData = [
+  {
+    "id": "opened-deal",
+    "label": "Открытые сделки"
+  },
+  {
+    "id": "archieve-deal",
+    "label": "Архив сделок"
+  },
+  {
+    "id": "chose-broker",
+    "label": "Заключить договор"
+  },
+  {
+    "id": "new-deal",
+    "label": "Новая сделка"
+  },
+  {
+    "id": "chat",
+    "label": "Чат с брокером"
+  },
+  {
+    "id": "dissolve-broker",
+    "label": "Расторгнуть договор"
+  },
+  {
+    "id": "account-balance",
+    "label": "Баланс счетов"
+  },
+  {
+    "id": "withdrawal-of-funds",
+    "label": "Вывод средств"
+  },
+
+]
 
 
 class TraderCabinet extends Component {
@@ -193,7 +249,11 @@ class TraderCabinet extends Component {
 
     if(this.state.workPanel.includes("dissolve-broker")){
       var brokersList = this.getListOfBrokers();
-      workPanel = <GroupButtons items={brokersList} title="Выберите брокера для расторжения договора" onSubmit={this.addNewBrokerToUser}/>;
+      workPanel = <GroupButtons
+                    items={brokersList}
+                    title="Выберите брокера для расторжения договора"
+                    onSubmit={this.addNewBrokerToUser}
+                  />;
     }
 
     if(this.state.workPanel.includes("new-deal")){
@@ -203,7 +263,11 @@ class TraderCabinet extends Component {
 
     if(this.state.workPanel.includes("chose-broker")){
       var brokersList = this.getListOfBrokers();
-      workPanel = <GroupButtons items={brokersList} title="Выберите нового брокера" onSubmit={this.addNewBrokerToUser}/>;
+      workPanel = <GroupButtons
+                    items={brokersList}
+                    title="Выберите нового брокера"
+                    onSubmit={this.addNewBrokerToUser}
+                  />;
     }
 
     if (this.state.workPanel.includes("chat")){
@@ -258,7 +322,12 @@ class TraderCabinet extends Component {
         <div id="peson-cabinet">
           <Title text="Личный кабинет трейдера"/>
           <div id="menu">
-            <Menu setWorkPanel={this.setWorkPanel}/>
+            <Menu
+              setWorkPanel={this.setWorkPanel}
+              menuData={menuData}
+              hasDropdown={true}
+              dropdownData={currency}
+              dropdownKey="quotations"/>
           </div>
           <div id="workPanel">
             {workPanel}

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import  BaseControlledCarousel from './BaseControlledCarousel'
-import Modal from './ModalForm'
-import Animation from './Animation';
-import Title from './Title';
+import  BaseControlledCarousel from '../common/BaseControlledCarousel'
+import Modal from '../common/ModalForm'
+import Animation from '../common/Animation';
+import Title from '../common/Title';
 
 
 const items = [
