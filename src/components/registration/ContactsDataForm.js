@@ -13,7 +13,7 @@ class ContactsDataForm extends Component{
                             type="text"
                             placeholder="Телефон"
                             onChange={this.props.handleInputChange}
-                            name="phone"
+                            name="phoneNumber"
                         />
                         <FormInput
                             class="general input-image email"

@@ -20,14 +20,14 @@ class PersonDataForm extends Component{
                             type="text"
                             placeholder="Вашу фамилия"
                             onChange={this.props.handleInputChange}
-                            firstName="secondName"
+                            name="secondName"
                         />
                         <FormInput
                             class="general input-image b_date"
                             type="date"
                             placeholder="Дата рождения"
                             onChange={this.props.handleInputChange}
-                            name="bDate"
+                            name="birthday"
                         />
                         <FormInput
                             class="general input-image passport"

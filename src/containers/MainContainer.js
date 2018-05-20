@@ -3,7 +3,6 @@ import BaseControlledCarousel from '../components/common/BaseControlledCarousel'
 import LoginForm from '../components/login/LoginForm';
 import RegistrationForm from '../components/registration/RegistrationForm';
 import Animation from '../components/common/Animation';
-import ChooseBroker from '../components/registration/ChooseBroker';
 import TraderCabinet from '../components/trader_cabinet/TraderCabinet';
 
 import imgSrc1 from '../images/2.jpg'
@@ -58,13 +57,14 @@ class MainContainer extends Component{
             pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
         }
         if (this.state.status == 'chooseBroker'){
-            pageContent = null
-            carousel = <ChooseBroker changeAppState={this.handleStateChange}/>;
+            carousel = null;
+            pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
         }
         if (this.state.status == 'trader-cabinet'){
-            carousel = null
+            carousel = null;
             pageContent = <TraderCabinet/>;
         }
+        console.log(carousel)
         return (
             <div className="MainContainer">
                 <Animation transitionName="carousel-anim">
