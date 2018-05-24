@@ -5,6 +5,10 @@
   "proxy": "http://localhost:8080/myapp",
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "crypto-js": "^3.1.9-1",
+    "cryptojs": "^2.5.3",
+    "jssha": "^2.3.1",
+    "pidcrypt": "0.0.31",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-addons-css-transition-group": "^15.6.2",

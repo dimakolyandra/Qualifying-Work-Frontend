@@ -30,8 +30,32 @@ const items = [
 class MainContainer extends Component{
     constructor(props){
         super(props);
-        this.state = {status: 'login'};
         this.handleStateChange = this.handleStateChange.bind(this);
+        this.getSessionKey = this.getSessionKey.bind(this);
+        this.getAesKey = this.getAesKey.bind(this);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/getsessionkey', false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send();
+        if (xhr.status != 200){
+            alert(xhr.status + ": " + xhr.statusText)
+            return;
+        }
+        else{
+            var resp = JSON.parse(xhr.responseText);
+            var uuid = resp.sessionKey.split(":")[0];
+            var aesKey = resp.sessionKey.split(":")[1];
+            this.state = {status: 'login', sessionKey: uuid, aesKey: aesKey};
+        }
+    }
+
+    getAesKey(){
+        return this.state.aesKey;
+    }
+
+    getSessionKey(){
+        return this.state.sessionKey;
     }
 
     handleStateChange(newStatus, userData){
@@ -51,18 +75,29 @@ class MainContainer extends Component{
                 imageClass="background"
             />);
         if (this.state.status == 'login'){
-            pageContent = <LoginForm changeAppState={this.handleStateChange}/>
+            pageContent = <LoginForm
+                            changeAppState={this.handleStateChange}
+                            getSessionKey={this.getSessionKey}
+                            getAesKey={this.getAesKey}/>
         }
         if (this.state.status == 'registration'){
-            pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
+            pageContent = <RegistrationForm
+                            changeAppState={this.handleStateChange}
+                            getSessionKey={this.getSessionKey}
+                            getAesKey={this.getAesKey}/>;
         }
         if (this.state.status == 'chooseBroker'){
             carousel = null;
-            pageContent = <RegistrationForm changeAppState={this.handleStateChange}/>;
+            pageContent = <RegistrationForm
+                            changeAppState={this.handleStateChange}
+                            getSessionKey={this.getSessionKey}
+                            getAesKey={this.getAesKey}/>;
         }
         if (this.state.status == 'trader-cabinet'){
             carousel = null;
-            pageContent = <TraderCabinet/>;
+            pageContent = <TraderCabinet
+                            getSessionKey={this.getSessionKey}
+                            getAesKey={this.getAesKey}/>;
         }
         console.log(carousel)
         return (

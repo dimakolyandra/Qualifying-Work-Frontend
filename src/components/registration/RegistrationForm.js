@@ -45,10 +45,14 @@ class RegistrationForm extends Component{
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/users/register', false);
         xhr.setRequestHeader("Content-type", "application/json");
-        console.log(this.state.user);
-        xhr.send(JSON.stringify({newUser: this.state.user, brokerId: brokerId}));
-        if(xhr.status != 200){
-            alert(xhr.status + ": " + xhr.statusText);
+        xhr.send(JSON.stringify({
+            newUser: this.state.user,
+            brokerId: brokerId,
+            sessionKey: this.props.getSessionKey()})
+        );
+        var resp = JSON.parse(xhr.responseText);
+        if(resp.status != 'ok'){
+            alert(resp.status);
             return;
         }
         else{
@@ -58,19 +62,22 @@ class RegistrationForm extends Component{
 
     submitNext(event){
         event.preventDefault();
-        console.log("STATE INDX: " + this.state.stageRegistrationIndex);
 
         if (this.state.stageRegistrationIndex == 0){
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/users/count', false);
             xhr.setRequestHeader("Content-type", "application/json");
-            xhr.send(this.state.user.login);
-            if (xhr.status != 200){
-                alert(xhr.status + ": " + xhr.statusText)
+            xhr.send(JSON.stringify({
+                "login": this.state.user.login,
+                "sessionKey": this.props.getSessionKey()})
+            );
+            var resp = JSON.parse(xhr.responseText);
+            console.log(resp);
+            if(resp.status != 'ok'){
+                alert(resp.status)
                 return;
             }
-            var resp = JSON.parse(xhr.responseText)
-            if (resp.userCount > 0){
+            else if (resp.userCount > 0){
                 this.setState({showModal: true});
                 return;
             }
@@ -95,8 +102,6 @@ class RegistrationForm extends Component{
     }
 
     handleInputChange(event){
-        console.log(event.target.name);
-        console.log(event.target.value);
         const name = event.target.name;
         const value = event.target.value;
         if (name != 'email'){
@@ -134,8 +139,7 @@ class RegistrationForm extends Component{
                     />;
         }
         if (stateRegistration == 'brokersList'){
-            console.log("!")
-            form =  <ChooseBroker finishRegistration={this.finishRegistration}/>;
+            form = <ChooseBroker finishRegistration={this.finishRegistration}/>;
         }
         return (
             <div>
