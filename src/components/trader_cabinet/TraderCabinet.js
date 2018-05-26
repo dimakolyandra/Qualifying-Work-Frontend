@@ -10,7 +10,7 @@ import PaginationDisplaying from './PaginationDisplaying';
 import Menu from '../common/Menu';
 import Chat from '../common/Chat';
 import {eur, usd, gbr, cny} from '../../mockedData/currencyData';
-import {openedDeal} from '../../mockedData/openedDealData';
+// import {openedDeal} from '../../mockedData/openedDealData';
 import {archieveDealData} from '../../mockedData/archieveDealData';
 import {msgs} from '../../mockedData/messagesData';
 import {brokersList} from '../../mockedData/brokersList';
@@ -90,7 +90,6 @@ class TraderCabinet extends Component {
     this.getPagesItems = this.getPagesItems.bind(this);
 
     this.getOpenedDeal = this.getOpenedDeal.bind(this);
-    this.getOpenedDealCount = this.getOpenedDealCount.bind(this);
     this.increaseOpenedDealPage = this.increaseOpenedDealPage.bind(this);
     this.reduceOpenedDealPage = this.reduceOpenedDealPage.bind(this);
     this.setOpenedDealPage = this.setOpenedDealPage.bind(this);
@@ -182,16 +181,38 @@ class TraderCabinet extends Component {
   getOpenedDeal(){
     let indBegin = this.state.currentOpenedDealPage * this.sizeOfPage;
     let indEnd = (this.state.currentOpenedDealPage + 1) * this.sizeOfPage;
-    return openedDeal.slice(indBegin, indEnd);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/deals/open', false);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(JSON.stringify({
+        sessionKey: this.props.getSessionKey(),
+        startInd: indBegin,
+        endInd: indEnd
+    }));
+    var resp = JSON.parse(xhr.responseText);
+    if(resp.status != 'ok'){
+        alert("Unable to see opened deals");
+        return;
+    }
+    var openedDeals = resp.deals.map((item) => {
+      var newItem = {
+        "ID": item.id,
+        "Дата открытия": item.dateOpen,
+        "Сумма": item.value,
+        "Счёт списания": item.sellAccount,
+        "Счёт зачисления": item.buyAccount,
+        "Валюта продажи": item.sellIso,
+        "Валюта покупки": item.buyIso,
+        "Данные брокера": item.brokersData
+      }
+
+      return newItem;
+    });
+    return {deals: openedDeals, count: resp.dealsCount};
   }
 
   setOpenedDealPage(index){
     this.setState({currentOpenedDealPage: index});
-  }
-
-  getOpenedDealCount(){
-    // Здесь будет запрос к бэку, количество записей в таблице для данного пользователя
-    return openedDeal.length;
   }
 
   increaseArchieveDealPage(){
@@ -206,7 +227,35 @@ class TraderCabinet extends Component {
     // Здесь будет запрос к бэку, получающий порцию данных,
     let indBegin = this.state.currentArchieveDealPage * this.sizeOfPage;
     let indEnd = (this.state.currentArchieveDealPage + 1) * this.sizeOfPage;
-    return archieveDealData.slice(indBegin, indEnd);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/deals/archieve', false);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(JSON.stringify({
+        sessionKey: this.props.getSessionKey(),
+        startInd: indBegin,
+        endInd: indEnd
+    }));
+    var resp = JSON.parse(xhr.responseText);
+    if(resp.status != 'ok'){
+        alert("Unable to see opened deals");
+        return;
+    }
+    var openedDeals = resp.deals.map((item) => {
+      var newItem = {
+        "ID": item.id,
+        "Дата открытия": item.dateOpen,
+        "Сумма": item.value,
+        "Счёт списания": item.sellAccount,
+        "Счёт зачисления": item.buyAccount,
+        "Валюта продажи": item.sellIso,
+        "Валюта покупки": item.buyIso,
+        "Данные брокера": item.brokersData
+      }
+
+      return newItem;
+    });
+    return {deals: openedDeals, count: resp.dealsCount};
+    // return archieveDealData.slice(indBegin, indEnd);
   }
 
   setArchieveDealPage(index){
@@ -295,10 +344,10 @@ class TraderCabinet extends Component {
 
     if(this.state.workPanel.includes("opened-deal")){
       var headData = this.getOpenedDeal();
-      workPanel = <TableData data={headData}/>;
-
-      dataPagination = (<PaginationDisplaying
-                          getDealCount={this.getOpenedDealCount}
+      if (headData.count != 0){
+        workPanel = <TableData data={headData.deals}/>;
+        dataPagination = (<PaginationDisplaying
+                          countData={headData.count}
                           getPagesItems={this.getPagesItems}
                           currentOpenedPage={this.state.currentOpenedDealPage}
                           sizeOfPage={this.sizeOfPage}
@@ -309,25 +358,34 @@ class TraderCabinet extends Component {
                           leftBorder="leftOpenedDealBorder"
                           rightBorder="rightOpenedDealBorder"
                         />);
+      }
+      else{
+        this.setState({workPanel: ""});
+      }
     }
 
     if (this.state.workPanel.includes("archieve-deal")){
       var headData = this.getArchieveDeal();
-      workPanel = <TableData data={headData}/>;
-
-      dataPagination = (<PaginationDisplaying
-                          getDealCount={this.getArchieveDealCount}
-                          getPagesItems={this.getPagesItems}
-                          currentOpenedPage={this.state.currentArchieveDealPage}
-                          sizeOfPage={this.sizeOfPage}
-                          reducePage={this.reduceArchieveDealPage}
-                          increasePage={this.increaseArchieveDealPage}
-                          setPage={this.setArchieveDealPage}
-                          currentPage={this.state.currentArchieveDealPage}
-                          leftBorder="leftArchieveDealBorder"
-                          rightBorder="rightArchieveDealBorder"
-                        />);
-
+      if (headData.count != 0){
+        workPanel = <TableData data={headData.deals}/>;
+        dataPagination = (<PaginationDisplaying
+                            countData={headData.count}
+                            getPagesItems={this.getPagesItems}
+                            currentOpenedPage={this.state.currentArchieveDealPage}
+                            sizeOfPage={this.sizeOfPage}
+                            reducePage={this.reduceArchieveDealPage}
+                            increasePage={this.increaseArchieveDealPage}
+                            setPage={this.setArchieveDealPage}
+                            currentPage={this.state.currentArchieveDealPage}
+                            leftBorder="leftArchieveDealBorder"
+                            rightBorder="rightArchieveDealBorder"
+                          />);
+      }
+      else{
+        this.setState({workPanel: ""});
+        // workPanel = null;
+        // dataPagination = null;
+      }
     }
     var title = "Личный кабинет трейдера: " + this.props.userData.firstName + " " + this.props.userData.secondName;
     return (

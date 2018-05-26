@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import ModalCustom from '../common/Modal';
 import '../../css/newDealForm.css';
+
 
 export default class newDealForm extends Component {
   constructor(props){
@@ -16,6 +18,7 @@ export default class newDealForm extends Component {
       brokersForMapp[key] = obj[key];
     }
     this.state = {
+      showModal: false,
       sellIso: "RUB",
       buyIso: "USD",
       choosenBroker: Object.keys(this.props.userBrokers[0])[0],
@@ -25,6 +28,11 @@ export default class newDealForm extends Component {
     this.brokers = brokers;
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  closeModal(){
+        this.setState({showModal: !this.state.showModal})
   }
 
   handleInputChange(event){
@@ -32,6 +40,7 @@ export default class newDealForm extends Component {
   }
 
   onSubmit(event){
+    event.preventDefault();
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/deals/new', false);
     xhr.setRequestHeader("Content-type", "application/json");
@@ -47,12 +56,19 @@ export default class newDealForm extends Component {
         alert(resp.status);
         return;
     }
+    this.setState({showModal: !this.state.showModal})
     console.log(resp)
   }
 
   render() {
+    let modal = null;
+    if (this.state.showModal){
+        modal = <ModalCustom text="Сделка успешно открыта!" closeModal={this.closeModal}/>;
+    }
+
     return (
       <div className="trader-cabinet-form">
+      {modal}
       <Form onSubmit={this.onSubmit}>
         <FormGroup>
           <Label for="sellIso">Валюта продажи</Label>
