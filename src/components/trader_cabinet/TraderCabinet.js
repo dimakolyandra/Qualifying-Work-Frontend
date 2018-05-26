@@ -25,14 +25,6 @@ const currency = [
   {
     "id": "usd",
     "label": "USD/RUB"
-  },
-  {
-    "id": "gbr",
-    "label": "GBP/RUB"
-  },
-  {
-    "id": "cny",
-    "label": "CNY/RUB"
   }
 ]
 
@@ -112,18 +104,35 @@ class TraderCabinet extends Component {
     this.getDialogs = this.getDialogs.bind(this);
     this.getListOfBrokers = this.getListOfBrokers.bind(this);
     this.addNewBrokerToUser = this.addNewBrokerToUser.bind(this);
-
+    this.openNewDeal = this.openNewDeal.bind(this);
     this.getAccounts = this.getAccounts.bind(this);
   }
+
+  openNewDeal(){}
 
   getAccounts(){
     return accountData;
   }
 
   getListOfBrokers(){
-    // Здесь будет запрос, для получения списка брокеров,
-    // не связанных с данным пользователем
-    return brokersList;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/contracts/list', false);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(JSON.stringify({
+        sessionKey: this.props.getSessionKey()
+    }));
+    var resp = JSON.parse(xhr.responseText);
+    if(resp.status != 'ok'){
+        alert(resp.status);
+        return;
+    }
+    var listBrokers = resp.contracts.map( (item)=> {
+      var dict = {};
+      var name = item.firmName;
+      var val = item.contractId;
+      return {[name]: val}
+    })
+    return listBrokers;
   }
 
   addNewBrokerToUser(newBrokerId){
@@ -171,7 +180,6 @@ class TraderCabinet extends Component {
   }
 
   getOpenedDeal(){
-    // Здесь будет запрос к бэку, получающий порцию данных,
     let indBegin = this.state.currentOpenedDealPage * this.sizeOfPage;
     let indEnd = (this.state.currentOpenedDealPage + 1) * this.sizeOfPage;
     return openedDeal.slice(indBegin, indEnd);
@@ -258,7 +266,11 @@ class TraderCabinet extends Component {
 
     if(this.state.workPanel.includes("new-deal")){
       var brokersList = this.getListOfBrokers();
-      workPanel = <NewDealForm userBrokers={brokersList}/>;
+      workPanel = <NewDealForm
+                      sessionKey={this.props.getSessionKey}
+                      onSubmit={this.props.openNewDeal}
+                      userBrokers={brokersList}
+                      traderContracts={this.state.traderContracts}/>;
     }
 
     if(this.state.workPanel.includes("chose-broker")){
@@ -300,7 +312,7 @@ class TraderCabinet extends Component {
     }
 
     if (this.state.workPanel.includes("archieve-deal")){
-      var headData = this.getOpenedDeal();
+      var headData = this.getArchieveDeal();
       workPanel = <TableData data={headData}/>;
 
       dataPagination = (<PaginationDisplaying
@@ -317,10 +329,11 @@ class TraderCabinet extends Component {
                         />);
 
     }
+    var title = "Личный кабинет трейдера: " + this.props.userData.firstName + " " + this.props.userData.secondName;
     return (
       <Animation transitionName="carousel-anim">
         <div id="peson-cabinet">
-          <Title text="Личный кабинет трейдера"/>
+          <Title text={title}/>
           <div id="menu">
             <Menu
               setWorkPanel={this.setWorkPanel}

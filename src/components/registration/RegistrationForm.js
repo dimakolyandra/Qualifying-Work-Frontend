@@ -43,6 +43,7 @@ class RegistrationForm extends Component{
 
     finishRegistration(brokerId){
         var xhr = new XMLHttpRequest();
+        console.log(brokerId);
         xhr.open('POST', '/users/register', false);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify({
@@ -56,7 +57,7 @@ class RegistrationForm extends Component{
             return;
         }
         else{
-            this.props.changeAppState("trader-cabinet");
+            this.props.changeAppState("trader-cabinet", this.state.user);
         }
     }
 

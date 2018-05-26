@@ -30,7 +30,7 @@ class LoginForm extends Component{
             return;
         }
         else{
-            this.props.changeAppState("trader-cabinet");
+            this.props.changeAppState("trader-cabinet", {firstName: resp.firstName, secondName: resp.secondName});
         }
     }
 

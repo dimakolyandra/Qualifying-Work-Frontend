@@ -60,7 +60,7 @@ class MainContainer extends Component{
 
     handleStateChange(newStatus, userData){
         var user = userData || {};
-        this.setState({status: newStatus, user});
+        this.setState({status: newStatus, user: user});
 
     }
 
@@ -97,7 +97,8 @@ class MainContainer extends Component{
             carousel = null;
             pageContent = <TraderCabinet
                             getSessionKey={this.getSessionKey}
-                            getAesKey={this.getAesKey}/>;
+                            getAesKey={this.getAesKey}
+                            userData={this.state.user}/>;
         }
         console.log(carousel)
         return (
