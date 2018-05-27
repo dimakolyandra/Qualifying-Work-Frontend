@@ -95,13 +95,14 @@ class TraderCabinet extends Component {
     this.setOpenedDealPage = this.setOpenedDealPage.bind(this);
 
     this.getArchieveDeal = this.getArchieveDeal.bind(this);
-    this.getArchieveDealCount = this.getArchieveDealCount.bind(this);
     this.increaseArchieveDealPage = this.increaseArchieveDealPage.bind(this);
     this.reduceArchieveDealPage = this.reduceArchieveDealPage.bind(this);
     this.setArchieveDealPage = this.setArchieveDealPage.bind(this);
 
     this.getDialogs = this.getDialogs.bind(this);
-    this.getListOfBrokers = this.getListOfBrokers.bind(this);
+    this.getContracts = this.getContracts.bind(this);
+    this.getListOfNewBrokers = this.getListOfNewBrokers.bind(this);
+    this.getListOfRemowingBrokers = this.getListOfRemowingBrokers.bind(this);
     this.addNewBrokerToUser = this.addNewBrokerToUser.bind(this);
     this.openNewDeal = this.openNewDeal.bind(this);
     this.getAccounts = this.getAccounts.bind(this);
@@ -113,7 +114,7 @@ class TraderCabinet extends Component {
     return accountData;
   }
 
-  getListOfBrokers(){
+  getContracts(){
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/contracts/list', false);
     xhr.setRequestHeader("Content-type", "application/json");
@@ -126,13 +127,52 @@ class TraderCabinet extends Component {
         return;
     }
     var listBrokers = resp.contracts.map( (item)=> {
-      var dict = {};
       var name = item.firmName;
       var val = item.contractId;
       return {[name]: val}
     })
     return listBrokers;
   }
+
+  getListOfNewBrokers(){
+    var listContracts = this.getContracts();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/brokers/list', false);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send();
+    var resp = JSON.parse(xhr.responseText);
+    if(resp.status != 'ok'){
+        alert(resp.status)
+        return;
+    }
+    var contractsNames = listContracts.map( (item) => {return Object.keys(item)[0]});
+    var potentialNew = {};
+    for (var i = 0; i < resp.firms.length; i++){
+        var item = resp.firms[i];
+        if (!contractsNames.includes(item.firmName)){
+          var name = item.firmName;
+          var val = item.brokerFirmId;
+          potentialNew[name] = val;
+        }
+    }
+    console.log(potentialNew);
+    return potentialNew;
+  }
+
+  getListOfRemowingBrokers(){
+    var listContracts = this.getContracts();
+    var contractsNames = listContracts.map( (item) => {return Object.keys(item)[0]});
+    var potentialRemoved = {};
+    for (var i = 0; i < listContracts.length; i++){
+          var item = listContracts[i];
+          var name = Object.keys(item)[0];
+          var val = item[name];
+          potentialRemoved[name] = val;
+    }
+    console.log(potentialRemoved)
+    return potentialRemoved;
+  }
+
 
   addNewBrokerToUser(newBrokerId){
     // Здесь будет запрос, обновляющий список брокеров
@@ -224,7 +264,6 @@ class TraderCabinet extends Component {
   }
 
   getArchieveDeal(){
-    // Здесь будет запрос к бэку, получающий порцию данных,
     let indBegin = this.state.currentArchieveDealPage * this.sizeOfPage;
     let indEnd = (this.state.currentArchieveDealPage + 1) * this.sizeOfPage;
     var xhr = new XMLHttpRequest();
@@ -255,16 +294,10 @@ class TraderCabinet extends Component {
       return newItem;
     });
     return {deals: openedDeals, count: resp.dealsCount};
-    // return archieveDealData.slice(indBegin, indEnd);
   }
 
   setArchieveDealPage(index){
     this.setState({currentArchieveDealPage: index});
-  }
-
-  getArchieveDealCount(){
-    // Здесь будет запрос к бэку, количество записей в таблице для данного пользователя
-    return archieveDealData.length;
   }
 
   getPagesItems(currPage, countData, leftBorderProp, rightBorderProp){
@@ -305,16 +338,19 @@ class TraderCabinet extends Component {
     }
 
     if(this.state.workPanel.includes("dissolve-broker")){
-      var brokersList = this.getListOfBrokers();
+      var brokersList = this.getListOfRemowingBrokers();
       workPanel = <GroupButtons
+                    url="/contracts/remove"
+                    modalText="Удаление контракта зафиксировано!"
                     items={brokersList}
                     title="Выберите брокера для расторжения договора"
                     onSubmit={this.addNewBrokerToUser}
+                    sessionKey={this.props.getSessionKey}
                   />;
     }
 
     if(this.state.workPanel.includes("new-deal")){
-      var brokersList = this.getListOfBrokers();
+      var brokersList = this.getContracts();
       workPanel = <NewDealForm
                       sessionKey={this.props.getSessionKey}
                       onSubmit={this.props.openNewDeal}
@@ -323,11 +359,14 @@ class TraderCabinet extends Component {
     }
 
     if(this.state.workPanel.includes("chose-broker")){
-      var brokersList = this.getListOfBrokers();
+      var brokersList = this.getListOfNewBrokers();
       workPanel = <GroupButtons
+                    url="/contracts/new"
+                    modalText="Новый контракт зафиксирован!"
                     items={brokersList}
                     title="Выберите нового брокера"
                     onSubmit={this.addNewBrokerToUser}
+                    sessionKey={this.props.getSessionKey}
                   />;
     }
 
