@@ -10,8 +10,6 @@ import PaginationDisplaying from './PaginationDisplaying';
 import Menu from '../common/Menu';
 import Chat from '../common/Chat';
 import {eur, usd, gbr, cny} from '../../mockedData/currencyData';
-// import {openedDeal} from '../../mockedData/openedDealData';
-import {archieveDealData} from '../../mockedData/archieveDealData';
 import {msgs} from '../../mockedData/messagesData';
 import {brokersList} from '../../mockedData/brokersList';
 import {accountData} from '../../mockedData/balanceAccounts';
@@ -180,7 +178,18 @@ class TraderCabinet extends Component {
   }
 
   getDialogs(){
-    return msgs;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/chats/list', false);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(JSON.stringify({
+      sessionKey: this.props.getSessionKey()
+    }));
+    var resp = JSON.parse(xhr.responseText);
+    if(resp.status != 'ok'){
+        alert(resp.status)
+        return;
+    }
+    return resp.messages;
   }
 
   setWorkPanel(workPanel){
@@ -372,7 +381,7 @@ class TraderCabinet extends Component {
 
     if (this.state.workPanel.includes("chat")){
       var dialogs = this.getDialogs();
-      workPanel = <Chat dataSource={dialogs}/>;
+      workPanel = <Chat dataSource={dialogs} sessionKey={this.props.getSessionKey}/>;
     }
 
     if (this.state.workPanel.includes("quotations")){

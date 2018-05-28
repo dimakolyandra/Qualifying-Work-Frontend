@@ -26,8 +26,21 @@ class Chat extends ChatList{
     }
 
     getDialogData(dialogId){
-        // Здесь будет запрос, получающий сообщения данного диалога
-        return dialogCont;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/chats/dialog', false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify({
+          sessionKey: this.props.sessionKey(),
+          contractId: dialogId
+        }));
+        var resp = JSON.parse(xhr.responseText);
+        resp.content.map((item) => {item.date = new Date(item.date)});
+        if(resp.status != 'ok'){
+            alert(resp.status)
+            return;
+        }
+        this.contractId = dialogId;
+        return resp;
     }
 
     chooseDialog(dialog){
@@ -35,20 +48,29 @@ class Chat extends ChatList{
     }
 
     sendMessage(){
-        // Здесь будет запрос, отправляющий сообщение на сервер
-        if (this.messageText != ""){
-            dialogCont.content.push({
-                position: 'right',
-                type: 'text',
-                text: this.messageText,
-                date: new Date(),
-            });
-            this.forceUpdate();
-        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/chats/new', false);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify({
+          sessionKey: this.props.sessionKey(),
+          contractId: this.contractId,
+          text: this.messageText
+        }));
+        var resp = JSON.parse(xhr.responseText);
+        this.setState({content: "dialog:" + this.contractId});
+
+        // if (this.messageText != ""){
+        //     dialogCont.content.push({
+        //         position: 'right',
+        //         type: 'text',
+        //         text: this.messageText,
+        //         date: new Date(),
+        //     });
+        //     this.forceUpdate();
+        // }
     }
 
     render(){
-        console.log("!")
         if (this.state.content.includes("chatList")){
             return (
                 <ChatList
