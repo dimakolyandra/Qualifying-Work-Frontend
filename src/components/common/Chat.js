@@ -58,16 +58,6 @@ class Chat extends ChatList{
         }));
         var resp = JSON.parse(xhr.responseText);
         this.setState({content: "dialog:" + this.contractId});
-
-        // if (this.messageText != ""){
-        //     dialogCont.content.push({
-        //         position: 'right',
-        //         type: 'text',
-        //         text: this.messageText,
-        //         date: new Date(),
-        //     });
-        //     this.forceUpdate();
-        // }
     }
 
     render(){

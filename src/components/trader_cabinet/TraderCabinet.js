@@ -82,7 +82,12 @@ class TraderCabinet extends Component {
       currentOpenedDealPage: 0,
       currentArchieveDealPage:  0,
     };
+    this.data = [];
+    var timeInMs = new Date();
+    var date = timeInMs.getHours()+":"+timeInMs.getMinutes()+":"+timeInMs.getSeconds();
 
+    // this.data = [{x: , y: }];
+    this.getData = this.getData.bind(this);
     this.setWorkPanel = this.setWorkPanel.bind(this);
     this.getChartsData = this.getChartsData.bind(this);
     this.getPagesItems = this.getPagesItems.bind(this);
@@ -106,11 +111,71 @@ class TraderCabinet extends Component {
     this.getAccounts = this.getAccounts.bind(this);
   }
 
+  getData(){
+    return this.data;
+  }
+
   openNewDeal(){}
 
   getAccounts(){
     return accountData;
   }
+
+  componentDidMount(){
+      // console.log()
+      var intervalId = setInterval(() => {this.getChartsData('eur')}, 5000);
+      // this.setState({intervalId: this.state.intervalId++});
+  }
+
+  componentWillUmount(){
+    clearInterval(this.state.intervalId);
+  }
+
+
+  getChartsData(currId){
+    // console.log("DATA" + this.state.data);
+    switch(currId){
+      case 'eur':
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/currency/quotations', true);
+        xhr.setRequestHeader("Content-type", "application/json");
+
+        xhr.send(JSON.stringify({
+          currId: currId}));
+
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState != 4) return;
+          var resp = JSON.parse(xhr.responseText);
+          if(resp.status != 'ok'){
+              alert(resp.status)
+              return;
+          }
+          var y = resp.y;
+          var timeInMs = new Date();
+          var date = timeInMs.getHours()+":"+timeInMs.getMinutes()+":"+timeInMs.getSeconds();
+          this.data.push({x: date, y: y});
+          console.log("DATA:" + this.data)
+          if (this.data.length > 10){
+            this.data.splice(0, 1);
+          }
+        };
+            // xhr.send(JSON.stringify({
+            //   currId: currId}));
+        break;
+      case 'usd':
+        // data = usd;
+        break;
+      case 'gbr':
+        // data = gbr;
+        break;
+      case 'cny':
+        // data = cny;
+        break;
+      }
+          // return this.data;
+    }
+
+
 
   getContracts(){
     var xhr = new XMLHttpRequest();
@@ -198,25 +263,30 @@ class TraderCabinet extends Component {
     });
   }
 
-  getChartsData(currId){
-    console.log(currId);
-    var data = null;
-    switch(currId){
-      case 'eur':
-        data = eur;
-        break;
-      case 'usd':
-        data = usd;
-        break;
-      case 'gbr':
-        data = gbr;
-        break;
-      case 'cny':
-        data = cny;
-        break;
-    }
-    return data;
-  }
+  // getChartsData(currId){
+  //   console.log(currId);
+  //   var data = null;
+  //   switch(currId){
+  //     case 'eur':
+  //       data = eur;
+  //       var min = 60;
+  //       var max = 70;
+  //       var randVal = min - 0.5 + Math.random() * (max - min + 1);
+  //       var x = data[data.length - 1].x + 1;
+  //       data.push({x: x, y: randVal});
+  //       break;
+  //     case 'usd':
+  //       data = usd;
+  //       break;
+  //     case 'gbr':
+  //       data = gbr;
+  //       break;
+  //     case 'cny':
+  //       data = cny;
+  //       break;
+  //   }
+  //   return data;
+  // }
 
   increaseOpenedDealPage(){
     console.log(this.state.currentOpenedDealPage);
@@ -332,6 +402,10 @@ class TraderCabinet extends Component {
     return pagesItem;
   }
 
+  setQuotes(data){
+    // this.data = data;
+  }
+
   render() {
     var workPanel = null;
     var dataPagination = null;
@@ -381,13 +455,15 @@ class TraderCabinet extends Component {
 
     if (this.state.workPanel.includes("chat")){
       var dialogs = this.getDialogs();
-      workPanel = <Chat dataSource={dialogs} sessionKey={this.props.getSessionKey}/>;
+      workPanel = <Chat dataSource={dialogs} sessionKey={this.props.getSessionKey} />;
     }
 
     if (this.state.workPanel.includes("quotations")){
       const currId = this.state.workPanel.split(":")[1];
-      var data = this.getChartsData(currId);
-      workPanel = <Chart title={currId.toUpperCase()} data={data}/>;
+      // var data = this.getChartsData(currId);
+      // setInterval(this.getChartsData(currId), 2000);
+      workPanel = <Chart title={currId.toUpperCase()} currId={currId} getData={this.getData}/>;
+      // this.setState({workPanel: this.state.workPanel});
     }
 
     if(this.state.workPanel.includes("opened-deal")){

@@ -1,17 +1,25 @@
 import React, {Component} from 'react'
 import Form from '../common/Form'
 import FormInput from '../common/FormInput'
+import ModalCustom from '../common/Modal';
+
 
 class LoginForm extends Component{
     constructor(props){
         super(props);
         this.state = {
             "login": "",
-            "password": ""
+            "password": "",
+            "showModal": false
         }
         this.submitEnter = this.submitEnter.bind(this);
         this.submitRegistration = this.submitRegistration.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal(){
+          this.setState({showModal: !this.state.showModal})
     }
 
     submitEnter(e){
@@ -26,8 +34,9 @@ class LoginForm extends Component{
         }));
         var resp = JSON.parse(xhr.responseText);
         if(resp.status != 'ok'){
-            alert(resp.status);
-            return;
+            this.setState({showModal: true});
+            // alert(resp.status);
+            // return;
         }
         else{
             this.props.changeAppState("trader-cabinet", {firstName: resp.firstName, secondName: resp.secondName});
@@ -50,8 +59,13 @@ class LoginForm extends Component{
 
 
     render(){
+        var modal = null;
+        if (this.state.showModal){
+            modal = <ModalCustom text="Данные введены неверно!" closeModal={this.closeModal}/>;
+        }
         return (
             <div>
+                {modal}
                 <Form id="enter" class="form" onSubmit={this.submitForm}>
                     <FormInput
                         name="login"
